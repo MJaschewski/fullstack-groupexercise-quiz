@@ -33,7 +33,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
 
-        axios.post('/api/home', formData)
+        axios.post('http://localhost:8080/api/home', formData)
             .then((response) => {
                 // Erfolgreiche Verarbeitung der Serverantwort
                 console.log(response.data);
