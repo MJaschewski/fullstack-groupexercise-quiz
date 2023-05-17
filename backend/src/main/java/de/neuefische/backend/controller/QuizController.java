@@ -19,8 +19,8 @@ public class QuizController {
 
     }
     @PostMapping("/home")
-    public void PostHome(QuizDifficulty difficulty, QuizCategory category, String type, int numberQuestions) {
-        service.CreateQuizSession(difficulty, category, type, numberQuestions);
+    public void PostHome(QuizDifficulty difficulty, QuizCategory category, int numberQuestions) {
+        service.CreateQuizSession(difficulty, category, numberQuestions);
     }
 
 }
