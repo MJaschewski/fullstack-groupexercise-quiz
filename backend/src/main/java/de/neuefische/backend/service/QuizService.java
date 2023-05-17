@@ -12,11 +12,11 @@ import java.util.Objects;
 
 @Service
 public class QuizService {
-    public void CreateQuizSession(QuizDifficulty difficulty, QuizCategory category, int questions)
+    public void CreateQuizSession(String difficulty, String category, Integer numQuestions)
     {
         WebClient client = WebClient.create("https://opentdb.com");
         Objects.requireNonNull(client.get()
-                        .uri("/api.php?amount=" + questions + "&category=" + category.toString() + "&difficulty=" + difficulty.toString() + "&type=multiple")
+                        .uri("/api.php?amount=" + numQuestions + "&category=" + category + "&difficulty=" + difficulty + "&type=multiple")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
                         .toEntity(OpentdbModel.class)
