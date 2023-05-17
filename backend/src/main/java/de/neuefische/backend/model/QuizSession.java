@@ -17,6 +17,7 @@ import java.util.List;
 @Data
 public class QuizSession {
     private String sessionId;
+    private int questionId;
     private List<Question> questionList;
     private int currentQuestionIndex;
     private Question[] questionRepo;
