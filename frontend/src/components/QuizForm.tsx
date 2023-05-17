@@ -1,19 +1,19 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 
 type Props = {
-    questionCount:number,
-    categories: string[],
-    difficultyLevels:string[]
-}
+    questionCount: number;
+    categories: string[];
+    difficultyLevels: string[];
+};
 
-const QuizForm = (props:Props) => {
+const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     const [formData, setFormData] = useState({
         question: '',
         category: '',
         difficulty: '',
     });
 
-    const handleQuestionChange = (event:ChangeEvent<HTMLInputElement>) => {
+    const handleQuestionChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -55,7 +55,7 @@ const QuizForm = (props:Props) => {
                     onChange={handleSelectChange}
                 >
                     <option value="">Bitte auswählen</option>
-                    {props.categories.map((category) => (
+                    {categories.map((category) => (
                         <option key={category} value={category}>
                             {category}
                         </option>
@@ -71,7 +71,7 @@ const QuizForm = (props:Props) => {
                     onChange={handleSelectChange}
                 >
                     <option value="">Bitte auswählen</option>
-                    {props.difficultyLevels.map((level) => (
+                    {difficultyLevels.map((level) => (
                         <option key={level} value={level}>
                             {level}
                         </option>

@@ -16,7 +16,7 @@ function App() {
       <div>
        <h3>Create new Quiz:</h3>
         <h4>Choose options:</h4>
-        <QuizForm/>
+        <QuizForm difficultyLevels={difficultyLevels} categories={categories} questionCount={10}/>
       </div>
       </div>
   );
