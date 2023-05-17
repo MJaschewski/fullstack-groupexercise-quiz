@@ -7,26 +7,27 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
+
 
 public class QuizSession {
     private String sessionId;
+    private List<Question> questionList;
+    private int currentQuestionIndex;
     private Question[] questionRepo;
     private Boolean[] scoreRepo;
-    QuizParameter quizParameter;
 
-    WebClient webClient = WebClient.create();
-
-    public QuizSession(QuizParameter quizParameter){
-        this.quizParameter = quizParameter;
-
+    public QuizSession(String sessionId, List<Question> questionList, int currentQuestionIndex, Question[] questionRepo, Boolean[] scoreRepo) {
+        this.sessionId = sessionId;
+        this.questionList = questionList;
+        this.currentQuestionIndex = currentQuestionIndex;
+        this.questionRepo = questionRepo;
+        this.scoreRepo = scoreRepo;
     }
 
-    /*
-    private Question[] getQuestionsTriviaAPI(QuizParameter quizParameter){
-        //Question[] response =
+    public Question getCurrentQuestion() {
+        return questionList.get(currentQuestionIndex);
     }
-
-     */
 
 
 }
