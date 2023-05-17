@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import axios from "axios";
 
 type Props = {
     questionCount: number;
@@ -30,23 +29,11 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
         }));
     };
 
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
-
-        axios.post('http://localhost:8080/api/home', formData)
-            .then((response) => {
-                // Erfolgreiche Verarbeitung der Serverantwort
-                console.log(response.data);
-            })
-            .catch((error) => {
-                // Fehler beim Posten der Daten
-                console.error(error);
-            });
-    };
-
-
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+            action="http://localhost:8080/api/home"
+            method="POST"
+        >
             <label>
                 Number of questions:
                 <input
@@ -89,7 +76,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                 </select>
             </label>
 
-            <button type="submit">Formular absenden</button>
+            <button type="submit">Submit Form</button>
         </form>
     );
 };
