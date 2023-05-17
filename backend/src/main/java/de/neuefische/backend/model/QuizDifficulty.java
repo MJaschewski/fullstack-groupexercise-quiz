@@ -1,7 +1,9 @@
 package de.neuefische.backend.model;
 
 public enum QuizDifficulty {
-    EASY,
-    MEDIUM,
-    HARD
+    EASY("easy"),
+    MEDIUM("medium"),
+    HARD("hard");
+    QuizDifficulty(String s) {
+    }
 }
