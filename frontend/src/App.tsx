@@ -6,7 +6,7 @@ import QuizForm from './components/QuizForm'
 function App() {
 
         const categories = ['Entertainment: Films','Sports','Science & Nature'];
-        const difficultyLevels = ['Easy','Normal','Schwer'];
+        const difficultyLevels = ['Easy','Normal','Hard'];
 
   return (
       <div>
