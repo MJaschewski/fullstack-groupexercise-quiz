@@ -19,7 +19,7 @@ public class QuizService {
                         .uri("/api.php?amount=" + questions + "&category=" + category.toString() + "&difficulty=" + difficulty.toString() + "&type=multiple")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
-                        .toEntity(OpentdbModel[].class)
+                        .toEntity(OpentdbModel.class)
                         .block())
                 .getBody();
     }
