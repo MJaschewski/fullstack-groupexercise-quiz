@@ -38,7 +38,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     return (
         <form onSubmit={handleSubmit}>
             <label>
-                Anzahl der Fragen:
+                Number of questions:
                 <input
                     type="number"
                     name="question"
@@ -48,7 +48,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             </label>
 
             <label>
-                Kategorie:
+                Category:
                 <select
                     name="category"
                     value={formData.category}
@@ -64,7 +64,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             </label>
 
             <label>
-                Schwierigkeitsgrad:
+                Difficulty:
                 <select
                     name="difficulty"
                     value={formData.difficulty}
