@@ -29,14 +29,11 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
         }));
     };
 
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
-        // Hier kannst du die Formulardaten weiterverarbeiten, z.B. sie an einen Server senden
-        console.log(formData);
-    };
-
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+            action="http://localhost:8080/api/home"
+            method="POST"
+        >
             <label>
                 Number of questions:
                 <input
@@ -54,7 +51,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                     value={formData.category}
                     onChange={handleSelectChange}
                 >
-                    <option value="">Bitte auswählen</option>
+                    <option value="">Please select</option>
                     {categories.map((category) => (
                         <option key={category} value={category}>
                             {category}
@@ -70,7 +67,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                     value={formData.difficulty}
                     onChange={handleSelectChange}
                 >
-                    <option value="">Bitte auswählen</option>
+                    <option value="">Please select</option>
                     {difficultyLevels.map((level) => (
                         <option key={level} value={level}>
                             {level}
@@ -79,7 +76,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                 </select>
             </label>
 
-            <button type="submit">Formular absenden</button>
+            <button type="submit">Submit Form</button>
         </form>
     );
 };
