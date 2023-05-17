@@ -1,5 +1,6 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.model.QuizCategory;
 import de.neuefische.backend.model.QuizParameter;
 import de.neuefische.backend.service.QuizService;
 import org.springframework.http.MediaType;
@@ -21,4 +22,16 @@ public class QuizController {
         // QuizParameter quizParameter
         service.CreateQuizSession(quizParameter.getDifficulty(), quizParameter.getCategory(), quizParameter.getNumQuestions());
     }
+
+    @GetMapping("/categories")
+    public QuizCategory[] getCategories() {
+        return service.getCategories();
+    }
+
+    @GetMapping("/quiz")
+    public void getQuizSessions(@RequestParam MultiValueMap<String,String> paramMap) {
+        QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst("numQuestions") == null)?"0":paramMap.getFirst("numQuestions")));
+        service.CreateQuizSession(quizParameter.getDifficulty(), quizParameter.getCategory(), quizParameter.getNumQuestions());
+    }
+
 }
