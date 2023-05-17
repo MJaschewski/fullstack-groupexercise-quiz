@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class QuizParameter {
     private String difficulty;
-    private String gerne;
+    private String category;
     private int numQuestion;
 }
