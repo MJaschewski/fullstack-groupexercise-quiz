@@ -1,5 +1,7 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.model.QuizCategory;
+import de.neuefische.backend.model.QuizDifficulty;
 import de.neuefische.backend.service.QuizService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +19,8 @@ public class QuizController {
 
     }
     @PostMapping("/home")
-    public void PostHome(String difficulty, String genre, String type, int questions) {
-        service.CreateQuizSession(difficulty, genre, type, questions);
+    public void PostHome(QuizDifficulty difficulty, QuizCategory category, String type, int numberQuestions) {
+        service.CreateQuizSession(difficulty, category, type, numberQuestions);
     }
 
 }
