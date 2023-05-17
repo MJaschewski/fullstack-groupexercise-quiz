@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import axios from "axios";
 
 type Props = {
     questionCount: number;
@@ -31,9 +32,18 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        // Hier kannst du die Formulardaten weiterverarbeiten, z.B. sie an einen Server senden
-        console.log(formData);
+
+        axios.post('/api/home', formData)
+            .then((response) => {
+                // Erfolgreiche Verarbeitung der Serverantwort
+                console.log(response.data);
+            })
+            .catch((error) => {
+                // Fehler beim Posten der Daten
+                console.error(error);
+            });
     };
+
 
     return (
         <form onSubmit={handleSubmit}>
@@ -54,7 +64,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                     value={formData.category}
                     onChange={handleSelectChange}
                 >
-                    <option value="">Bitte auswählen</option>
+                    <option value="">Please select</option>
                     {categories.map((category) => (
                         <option key={category} value={category}>
                             {category}
@@ -70,7 +80,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                     value={formData.difficulty}
                     onChange={handleSelectChange}
                 >
-                    <option value="">Bitte auswählen</option>
+                    <option value="">Please select</option>
                     {difficultyLevels.map((level) => (
                         <option key={level} value={level}>
                             {level}
