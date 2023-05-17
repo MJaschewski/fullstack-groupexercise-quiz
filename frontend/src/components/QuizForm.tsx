@@ -38,7 +38,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                 Number of questions:
                 <input
                     type="number"
-                    name="question"
+                    name="questions"
                     value={formData.questions}
                     onChange={handleQuestionChange}
                 />
