@@ -8,5 +8,5 @@ import lombok.Data;
 public class QuizParameter {
     private String difficulty;
     private String category;
-    private int numQuestion;
+    private Integer numQuestions;
 }
