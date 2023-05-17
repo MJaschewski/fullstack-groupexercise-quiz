@@ -17,7 +17,7 @@ public class QuizService {
         WebClient client = WebClient.create("https://opentdb.com");
         Objects.requireNonNull(client.get()
                         .uri("/api.php?amount=" + numQuestions + "&category=" + category + "&difficulty=" + difficulty + "&type=multiple")
-                        .accept(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_FORM_URLENCODED)
                         .retrieve()
                         .toEntity(OpentdbModel.class)
                         .block())
