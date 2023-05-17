@@ -15,12 +15,13 @@ public class QuizService {
     public void CreateQuizSession(String difficulty, String category, Integer numQuestions)
     {
         WebClient client = WebClient.create("https://opentdb.com");
-        Objects.requireNonNull(client.get()
+        var test = Objects.requireNonNull(client.get()
                         .uri("/api.php?amount=" + numQuestions + "&category=" + category + "&difficulty=" + difficulty + "&type=multiple")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
                         .toEntity(OpentdbModel.class)
                         .block())
                 .getBody();
+        System.out.println("QuizService.CreateQuizSession:" + test.toString());
     }
 }
