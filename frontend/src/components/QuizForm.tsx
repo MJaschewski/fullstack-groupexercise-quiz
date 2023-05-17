@@ -8,7 +8,7 @@ type Props = {
 
 const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     const [formData, setFormData] = useState({
-        question: '',
+        questions: '',
         category: '',
         difficulty: '',
     });
@@ -39,7 +39,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                 <input
                     type="number"
                     name="question"
-                    value={formData.question}
+                    value={formData.questions}
                     onChange={handleQuestionChange}
                 />
             </label>
