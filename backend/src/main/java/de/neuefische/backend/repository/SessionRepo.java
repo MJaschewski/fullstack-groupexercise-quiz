@@ -11,11 +11,19 @@ import java.util.Map;
 @Repository
 public class SessionRepo {
 
-    private Map<String, Question> sessionMap = new HashMap<>();
+    private Map<String, List<Question>> sessionMap = new HashMap<>();
 
-    public List<Question> getQuestions() {
-        return new ArrayList<>(sessionMap.values());
+    public List<Question> getAllQuestions() {
+        List<Question> allQuestions = new ArrayList<>();
+        for (List<Question> questions : sessionMap.values()) {
+            allQuestions.addAll(questions);
+        }
+        return allQuestions;
+    }
 
+
+    public void addSession(String sessionId, List<Question> questions) {
+        sessionMap.put(sessionId, questions);
     }
 
 
