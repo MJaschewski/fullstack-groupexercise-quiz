@@ -2,7 +2,7 @@ package de.neuefische.backend.model;
 
 import java.util.List;
 
-public class question {
+public class Question {
     private String category;
     private String type;
     private String difficulty;
