@@ -1,11 +1,14 @@
 package de.neuefische.backend.controller;
 
-import de.neuefische.backend.model.QuizCategory;
 import de.neuefische.backend.model.QuizParameter;
+import de.neuefische.backend.model.TriviaCategories;
+import de.neuefische.backend.model.TriviaObject;
 import de.neuefische.backend.service.QuizService;
 import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -20,18 +23,17 @@ public class QuizController {
     public void PostHome(@RequestParam MultiValueMap<String,String> paramMap) {
         QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst("numQuestions") == null)?"0":paramMap.getFirst("numQuestions")));
         // QuizParameter quizParameter
-        service.CreateQuizSession(quizParameter.getDifficulty(), quizParameter.getCategory(), quizParameter.getNumQuestions());
+        service.GetQuizSession(quizParameter.getDifficulty(), Integer.parseInt(quizParameter.getCategory()), quizParameter.getNumQuestions());
     }
 
     @GetMapping("/categories")
-    public QuizCategory[] getCategories() {
+    public List<TriviaObject> getCategories() {
         return service.getCategories();
     }
 
     @GetMapping("/quiz")
     public void getQuizSessions(@RequestParam MultiValueMap<String,String> paramMap) {
         QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst("numQuestions") == null)?"0":paramMap.getFirst("numQuestions")));
-        service.CreateQuizSession(quizParameter.getDifficulty(), quizParameter.getCategory(), quizParameter.getNumQuestions());
+        service.GetQuizSession(quizParameter.getDifficulty(), Integer.parseInt(quizParameter.getCategory()), quizParameter.getNumQuestions());
     }
-
 }

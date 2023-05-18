@@ -1,12 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import QuizForm from './components/QuizForm'
+import axios from "axios";
 
 function App() {
 
-        const categories = ['Entertainment: Films','Sports','Science & Nature'];
+    const initData = new Map<Object, string>();
+
+    const [categories, setCategories] = useState<Map<Object, string>[]>([initData])
+        //const categories = ['Entertainment: Films','Sports','Science & Nature'];
         const difficultyLevels = ['Easy','Normal','Hard'];
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/categories')
+        .then(response => response.data)
+        .then(data => setCategories(data))
+        .catch(error => console.log(error));
+    }, []);
 
   return (
       <div>

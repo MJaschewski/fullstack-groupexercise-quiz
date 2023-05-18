@@ -2,8 +2,8 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 
 type Props = {
     questionCount: number;
-    categories: string[];
-    difficultyLevels: string[];
+    categories: Map<Object, string>[];
+    difficultyLevels: String[];
 };
 
 const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
@@ -51,12 +51,17 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                     value={formData.category}
                     onChange={handleSelectChange}
                 >
+                    <>
                     <option value="">Please select</option>
-                    {categories.map((category) => (
-                        <option key={category} value={category}>
-                            {category}
-                        </option>
-                    ))}
+                    {categories.map((category => {
+                        for(let [key,value] of category ) {
+                            <option key={key.toString()} value={value}>
+                                {value}
+                            </option>
+                        }
+                    }))
+                    }
+                    </>
                 </select>
             </label>
 
@@ -69,7 +74,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                 >
                     <option value="">Please select</option>
                     {difficultyLevels.map((level) => (
-                        <option key={level} value={level}>
+                        <option key={level.toString()} value={level.toString()}>
                             {level}
                         </option>
                     ))}
