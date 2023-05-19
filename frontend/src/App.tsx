@@ -26,7 +26,7 @@ function App() {
       <div>
        <h3>Create new Quiz:</h3>
         <h4>Choose options:</h4>
-          {<QuizForm difficultyLevels={difficultyLevels} categories={categories.map(currentCategory =>currentCategory.name)} questionCount={10}/>}
+          {<QuizForm difficultyLevels={difficultyLevels} categories={categories.map(currentCategory =>currentCategory)} questionCount={10}/>}
       </div>
       </div>
   );
