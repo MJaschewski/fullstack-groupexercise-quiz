@@ -45,7 +45,8 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                     onChange={handleQuestionChange}
                 />
             </label>
-
+            <br/>
+            <br/>
             <label>
                 Category:
                 <select
