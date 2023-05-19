@@ -1,9 +1,9 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState, Key } from 'react';
 
 type Props = {
     questionCount: number;
     categories: Map<Object, string>[];
-    difficultyLevels: String[];
+    difficultyLevels: React.Key[];
 };
 
 const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
@@ -14,11 +14,13 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     });
 
     const handleQuestionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
+
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
+
     };
 
     const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -34,16 +36,24 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             action="http://localhost:8080/api/home"
             method="POST"
         >
-            <label>
-                Number of questions:
-                <input
-                    type="number"
-                    name="questions"
-                    value={formData.questions}
-                    onChange={handleQuestionChange}
-                />
-            </label>
-
+            <input
+                type="number"
+                name="questions"
+                value={formData.questions}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    const { value } = event.target;
+                    if (Number(value) > 0) {
+                        handleQuestionChange(event);
+                    } else {
+                        setFormData((prevData) => ({
+                            ...prevData,
+                            questions: "10",
+                        }));
+                    }
+                }}
+            />
+            <br/>
+            <br/>
             <label>
                 Category:
                 <select
@@ -66,21 +76,22 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             </label>
 
             <label>
-                Difficulty:
-                <select
-                    name="difficulty"
-                    value={formData.difficulty}
-                    onChange={handleSelectChange}
-                >
-                    <option value="">Please select</option>
-                    {difficultyLevels.map((level) => (
-                        <option key={level.toString()} value={level.toString()}>
-                            {level}
-                        </option>
-                    ))}
-                </select>
+                <p>Choose difficulty:</p>
+                {difficultyLevels.map((level: React.Key) => (
+                    <div key={level}>
+                        <input
+                            type="radio"
+                            id={level.toString()}
+                            name="difficulty"
+                            value={level.toString()}
+                            onChange={handleQuestionChange}
+                            checked={formData.difficulty === level.toString()}
+                        />
+                        <label htmlFor={level.toString()}>{level.toString()}</label>
+                    </div>
+                ))}
             </label>
-
+            <br/>
             <button type="submit">Submit Form</button>
         </form>
     );
