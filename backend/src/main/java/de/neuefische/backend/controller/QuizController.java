@@ -13,12 +13,14 @@ public class QuizController {
 
     QuizService service;
 
+    private String numString = "numQuestions";
+
     public QuizController(QuizService service) {
         this.service = service;
     }
     @PostMapping(path="/home",consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void postHome(@RequestParam MultiValueMap<String,String> paramMap) {
-        QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst("numQuestions") == null)?"0":paramMap.getFirst("numQuestions")));
+        QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst(numString) == null)?"0":paramMap.getFirst(numString)));
         // QuizParameter quizParameter
         service.getQuizSession(quizParameter.getDifficulty(), Integer.parseInt(quizParameter.getCategory()), quizParameter.getNumQuestions());
     }
@@ -30,7 +32,7 @@ public class QuizController {
 
     @GetMapping("/quiz")
     public void getQuizSessions(@RequestParam MultiValueMap<String,String> paramMap) {
-        QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst("numQuestions") == null)?"0":paramMap.getFirst("numQuestions")));
+        QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst(numString) == null)?"0":paramMap.getFirst(numString)));
         service.getQuizSession(quizParameter.getDifficulty(), Integer.parseInt(quizParameter.getCategory()), quizParameter.getNumQuestions());
     }
 }
