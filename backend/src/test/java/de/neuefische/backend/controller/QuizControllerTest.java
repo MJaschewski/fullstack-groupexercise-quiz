@@ -12,9 +12,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -40,9 +38,9 @@ class QuizControllerTest {
 
         QuizParameter expectedParameter = new QuizParameter("easy", "1", 10);
 
-        quizController.PostHome(paramMap);
+        quizController.postHome(paramMap);
 
-        verify(quizService).GetQuizSession(
+        verify(quizService).getQuizSession(
                 expectedParameter.getDifficulty(),
                 Integer.parseInt(expectedParameter.getCategory()),
                 expectedParameter.getNumQuestions()
@@ -76,7 +74,7 @@ class QuizControllerTest {
 
         quizController.getQuizSessions(paramMap);
 
-        verify(quizService, times(1)).GetQuizSession(
+        verify(quizService, times(1)).getQuizSession(
                 expectedParameter.getDifficulty(),
                 Integer.parseInt(expectedParameter.getCategory()),
                 expectedParameter.getNumQuestions()
