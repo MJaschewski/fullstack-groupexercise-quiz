@@ -36,15 +36,22 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             action="http://localhost:8080/api/home"
             method="POST"
         >
-            <label>
-                Number of questions:
-                <input
-                    type="number"
-                    name="questions"
-                    value={formData.questions}
-                    onChange={handleQuestionChange}
-                />
-            </label>
+            <input
+                type="number"
+                name="questions"
+                value={formData.questions}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    const { value } = event.target;
+                    if (Number(value) > 0) {
+                        handleQuestionChange(event);
+                    } else {
+                        setFormData((prevData) => ({
+                            ...prevData,
+                            questions: "10",
+                        }));
+                    }
+                }}
+            />
             <br/>
             <br/>
             <label>
