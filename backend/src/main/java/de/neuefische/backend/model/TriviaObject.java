@@ -1,5 +1,7 @@
 package de.neuefische.backend.model;
 
+import java.util.List;
+
 public class TriviaObject {
-    TriviaCategories trivia_categories;
+    List<TriviaCategories> trivia_categories;
 }
