@@ -63,7 +63,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                 >
                     <>
                     <option value="">Please select</option>
-                    {categories.map((value: string, key: number) => (
+{/*                    {categories.map((value: string, key: number) => (
 
                         return (
                         cat
@@ -71,7 +71,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                                 {value}
                             </option>
                         )
-                    }
+                    }*/}
                     </>
                 </select>
             </label>
