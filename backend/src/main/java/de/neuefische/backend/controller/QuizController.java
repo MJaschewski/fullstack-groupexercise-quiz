@@ -18,8 +18,8 @@ public class QuizController {
         this.service = service;
     }
     @PostMapping(path="/home")
-    public void PostHome(@RequestParam QuizParameter quizParameter) {
-        service.GetQuizSession(quizParameter.getDifficulty(), Integer.parseInt(quizParameter.getCategory()), quizParameter.getNumQuestions());
+    public void PostHome(@RequestParam String questions, @RequestParam String difficulty, @RequestParam String category) {
+        service.getQuizSession(difficulty, Integer.parseInt(category), Integer.parseInt(questions));
     }
 
     @GetMapping("/categories")
@@ -30,6 +30,6 @@ public class QuizController {
     @GetMapping("/quiz")
     public void getQuizSessions(@RequestParam MultiValueMap<String,String> paramMap) {
         QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst("numQuestions") == null)?"0":paramMap.getFirst("numQuestions")));
-        service.GetQuizSession(quizParameter.getDifficulty(), Integer.parseInt(quizParameter.getCategory()), quizParameter.getNumQuestions());
+        service.getQuizSession(quizParameter.getDifficulty(), Integer.parseInt(quizParameter.getCategory()), quizParameter.getNumQuestions());
     }
 }
