@@ -1,3 +1,21 @@
 .QuizCard  {
+    display: grid;
+    grid-template-columns: 180px 180px;
+    grid-row-gap: 30px;
+    grid-column-gap: 10px;
+    width: 400px;
+}
+
+.QuizCard-Wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    width: 500px;
+    border-width: 5px;
+    border-color: #282c34;
+    border-style: solid;
+    padding: 15px;
+    margin: 15px;
 
 }
