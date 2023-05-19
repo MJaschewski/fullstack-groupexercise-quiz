@@ -1,5 +1,6 @@
-import React, { ChangeEvent, FormEvent, useState, Key } from 'react';
+import React, {ChangeEvent, FormEvent, useState, Key} from 'react';
 import {CategoryType} from "./CategoryType";
+import './QuizForm.css'
 
 type Props = {
     questionCount: number;
@@ -7,7 +8,7 @@ type Props = {
     difficultyLevels: React.Key[];
 };
 
-const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
+const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
     const [formData, setFormData] = useState({
         questions: '',
         category: '',
@@ -25,7 +26,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     };
 
     const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -34,59 +35,60 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
 
     return (
         <div>
-        <button onClick={()=>console.log(categories)}> Categories</button>
-        <form
-            action="http://localhost:3000/api/home"
-            method="POST"
-        >
-            <input
-                type="number"
-                name="questions"
-                value={formData.questions}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    const { value } = event.target;
-                    if (Number(value) > 0) {
-                        handleQuestionChange(event);
-                    } else {
-                        setFormData((prevData) => ({
-                            ...prevData,
-                            questions: "10",
-                        }));
-                    }
-                }}
-            />
-            <br/>
-            <br/>
-            <label htmlFor="category">Choose a category: </label>
+            <form
+                action="http://localhost:3000/api/home"
+                method="POST"
+            >
+                <p>Enter number of questions:</p>
+                <input
+                    type="number"
+                    name="questions"
+                    value={formData.questions}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                        const {value} = event.target;
+                        if (Number(value) > 0) {
+                            handleQuestionChange(event);
+                        } else {
+                            setFormData((prevData) => ({
+                                ...prevData,
+                                questions: "10",
+                            }));
+                        }
+                    }}
+                />
+                <br/>
+                <br/>
+                <label htmlFor="category">Choose a category: </label>
 
                 <select id="category">
-                    <option value="">Please select</option>{
+                    <option value="">Please select</option>
+                    {
                         categories.map(currentCategory => {
-                           return <option value={currentCategory.id}> {currentCategory.name} </option>
+                            return <option value={currentCategory.id}> {currentCategory.name} </option>
                         })
                     }
                 </select>
 
 
-            <label>
-                <p>Choose difficulty:</p>
-                {difficultyLevels.map((level: React.Key) => (
-                    <div key={level}>
-                        <input
-                            type="radio"
-                            id={level.toString()}
-                            name="difficulty"
-                            value={level.toString()}
-                            onChange={handleQuestionChange}
-                            checked={formData.difficulty === level.toString()}
-                        />
-                        <label htmlFor={level.toString()}>{level.toString()}</label>
-                    </div>
-                ))}
-            </label>
-            <br/>
-            <button type="submit">Submit Form</button>
-        </form>
+                <label>
+                    <p>Choose difficulty:</p>
+                    {difficultyLevels.map((level: React.Key) => (
+                        <div key={level}>
+                            <input
+                                type="radio"
+                                id={level.toString()}
+                                name="difficulty"
+                                value={level.toString()}
+                                onChange={handleQuestionChange}
+                                checked={formData.difficulty === level.toString()}
+                            />
+                            <label htmlFor={level.toString()}>{level.toString()}</label>
+                        </div>
+                    ))}
+                </label>
+                <br/>
+                <button type="submit">Submit Form</button>
+            </form>
         </div>
     );
 };
