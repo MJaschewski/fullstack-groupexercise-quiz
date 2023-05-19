@@ -32,8 +32,10 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     };
 
     return (
+        <div>
+        <button onClick={()=>console.log(categories)}> Categories</button>
         <form
-            action="http://localhost:8080/api/home"
+            action="http://localhost:3000/api/home"
             method="POST"
         >
             <input
@@ -54,27 +56,16 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             />
             <br/>
             <br/>
-            <label>
-                Category:
-                <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleSelectChange}
-                >
-                    <>
-                    <option value="">Please select</option>
-{/*                    {categories.map((value: string, key: number) => (
+            <label htmlFor="category">Choose a category: </label>
 
-                        return (
-                        cat
-                            <option key={key} value={value}>
-                                {value}
-                            </option>
-                        )
-                    }*/}
-                    </>
+                <select id="category">
+                    <option value="">Please select</option>{
+                        categories.map(currentCategory => {
+                           return <option value={currentCategory}> {currentCategory} </option>
+                        })
+                    }
                 </select>
-            </label>
+
 
             <label>
                 <p>Choose difficulty:</p>
@@ -95,6 +86,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             <br/>
             <button type="submit">Submit Form</button>
         </form>
+        </div>
     );
 };
 

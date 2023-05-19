@@ -3,9 +3,10 @@ import logo from './logo.svg';
 import './App.css';
 import QuizForm from './components/QuizForm'
 import axios from "axios";
+import {CategoryType} from "./components/CategoryType";
 
 function App() {
-    const [categories, setCategories] = useState([])
+    const [categories, setCategories] = useState<CategoryType[]>([])
         //const categories = ['Entertainment: Films','Sports','Science & Nature'];
         const difficultyLevels = ['Easy','Normal','Hard'];
 
@@ -25,7 +26,7 @@ function App() {
       <div>
        <h3>Create new Quiz:</h3>
         <h4>Choose options:</h4>
-        <QuizForm difficultyLevels={difficultyLevels} categories={categories} questionCount={10}/>
+          {<QuizForm difficultyLevels={difficultyLevels} categories={categories.map(currentCategory =>currentCategory.name)} questionCount={10}/>}
       </div>
       </div>
   );
