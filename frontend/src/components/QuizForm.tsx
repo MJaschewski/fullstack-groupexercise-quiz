@@ -1,9 +1,9 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState, Key } from 'react';
 
 type Props = {
     questionCount: number;
     categories: Map<Object, string>[];
-    difficultyLevels: String[];
+    difficultyLevels: React.Key[];
 };
 
 const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
@@ -14,11 +14,13 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     });
 
     const handleQuestionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
+
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
+
     };
 
     const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -66,6 +68,24 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             </label>
 
             <label>
+                <p>Choose difficulty</p>
+                {difficultyLevels.map((level: React.Key) => (
+                    <div key={level}>
+                        <input
+                            type="radio"
+                            id={level.toString()}
+                            name="difficulty"
+                            value={level.toString()}
+                            onChange={handleQuestionChange}
+                            checked={formData.difficulty === level.toString()}
+                        />
+                        <label htmlFor={level.toString()}>{level.toString()}</label>
+                    </div>
+                ))}
+            </label>
+
+
+            {/*<label>
                 Difficulty:
                 <select
                     name="difficulty"
@@ -79,7 +99,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                         </option>
                     ))}
                 </select>
-            </label>
+            </label>*/}
 
             <button type="submit">Submit Form</button>
         </form>
