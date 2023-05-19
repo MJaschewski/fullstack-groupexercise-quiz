@@ -19,15 +19,15 @@ public class QuizController {
     public QuizController(QuizService service) {
         this.service = service;
     }
-    @PostMapping(path="/home", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @PostMapping(path="/home",consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void PostHome(@RequestParam MultiValueMap<String,String> paramMap) {
         QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst("numQuestions") == null)?"0":paramMap.getFirst("numQuestions")));
         // QuizParameter quizParameter
         service.GetQuizSession(quizParameter.getDifficulty(), Integer.parseInt(quizParameter.getCategory()), quizParameter.getNumQuestions());
     }
 
-    @GetMapping(value = "/categories")
-    public TriviaObject getCategories() {
+    @GetMapping("/categories")
+    public List<TriviaObject> getCategories() {
         return service.getCategories();
     }
 

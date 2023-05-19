@@ -1,9 +1,9 @@
-import React, { ChangeEvent, FormEvent, useState, Key } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 
 type Props = {
     questionCount: number;
     categories: Map<Object, string>[];
-    difficultyLevels: React.Key[];
+    difficultyLevels: String[];
 };
 
 const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
@@ -14,13 +14,11 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     });
 
     const handleQuestionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = event.target;
-
+        const { name, value } = event.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
-
     };
 
     const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -45,8 +43,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                     onChange={handleQuestionChange}
                 />
             </label>
-            <br/>
-            <br/>
+
             <label>
                 Category:
                 <select
@@ -69,22 +66,21 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             </label>
 
             <label>
-                <p>Choose difficulty:</p>
-                {difficultyLevels.map((level: React.Key) => (
-                    <div key={level}>
-                        <input
-                            type="radio"
-                            id={level.toString()}
-                            name="difficulty"
-                            value={level.toString()}
-                            onChange={handleQuestionChange}
-                            checked={formData.difficulty === level.toString()}
-                        />
-                        <label htmlFor={level.toString()}>{level.toString()}</label>
-                    </div>
-                ))}
+                Difficulty:
+                <select
+                    name="difficulty"
+                    value={formData.difficulty}
+                    onChange={handleSelectChange}
+                >
+                    <option value="">Please select</option>
+                    {difficultyLevels.map((level) => (
+                        <option key={level.toString()} value={level.toString()}>
+                            {level}
+                        </option>
+                    ))}
+                </select>
             </label>
-            <br/>
+
             <button type="submit">Submit Form</button>
         </form>
     );

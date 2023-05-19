@@ -11,13 +11,13 @@ import java.util.Objects;
 @Service
 public class QuizService {
 
-    public TriviaObject getCategories() {
+    public List<TriviaObject> getCategories() {
         WebClient client = WebClient.create("https://opentdb.com");
         return Objects.requireNonNull(client.get()
                         .uri("/api_category.php")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
-                        .toEntity(TriviaObject.class)
+                        .toEntity(List.class)
                         .block())
                 .getBody();
     }
