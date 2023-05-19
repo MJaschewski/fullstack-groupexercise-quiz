@@ -1,8 +1,9 @@
 import React, { ChangeEvent, FormEvent, useState, Key } from 'react';
+import {CategoryType} from "./CategoryType";
 
 type Props = {
     questionCount: number;
-    categories: string[];
+    categories: CategoryType[];
     difficultyLevels: React.Key[];
 };
 
@@ -61,7 +62,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                 <select id="category">
                     <option value="">Please select</option>{
                         categories.map(currentCategory => {
-                           return <option value={currentCategory}> {currentCategory} </option>
+                           return <option value={currentCategory.id}> {currentCategory.name} </option>
                         })
                     }
                 </select>
