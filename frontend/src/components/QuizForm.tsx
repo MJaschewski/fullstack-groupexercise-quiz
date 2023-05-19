@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useState, Key } from 'react';
 
 type Props = {
     questionCount: number;
-    categories: Map<Object, string>[];
+    categories: string[];
     difficultyLevels: React.Key[];
 };
 
@@ -63,13 +63,14 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                 >
                     <>
                     <option value="">Please select</option>
-                    {categories.map((category => {
-                        for(let [key,value] of category ) {
-                            <option key={key.toString()} value={value}>
+                    {categories.map((value: string, key: number) => (
+
+                        return (
+                        cat
+                            <option key={key} value={value}>
                                 {value}
                             </option>
-                        }
-                    }))
+                        )
                     }
                     </>
                 </select>

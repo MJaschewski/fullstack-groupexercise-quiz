@@ -5,17 +5,15 @@ import QuizForm from './components/QuizForm'
 import axios from "axios";
 
 function App() {
-
-    const initData = new Map<Object, string>();
-
-    const [categories, setCategories] = useState<Map<Object, string>[]>([initData])
+    const [categories, setCategories] = useState([])
         //const categories = ['Entertainment: Films','Sports','Science & Nature'];
         const difficultyLevels = ['Easy','Normal','Hard'];
 
     useEffect(() => {
-        axios.get('http://localhost:8080/categories')
+        axios.get('http://localhost:8080/api/categories')
         .then(response => response.data)
-        .then(data => setCategories(data))
+        .then(data => setCategories(data.trivia_categories))
+        .then(data => console.log(data))
         .catch(error => console.log(error));
     }, []);
 
