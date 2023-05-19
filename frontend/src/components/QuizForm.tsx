@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState, Key } from 'react';
 import {CategoryType} from "./CategoryType";
 import axios from "axios";
+import './QuizForm.css'
 
 type Props = {
     questionCount: number;
