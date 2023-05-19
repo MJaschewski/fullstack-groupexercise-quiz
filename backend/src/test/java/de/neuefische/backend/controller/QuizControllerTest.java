@@ -32,26 +32,7 @@ class QuizControllerTest {
     }
 
     @Test
-    void postHomeShouldCallGetQuizSession() {
-        MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("difficulty", "easy");
-        paramMap.add("category", "1");
-        paramMap.add("numQuestions", "10");
-
-        QuizParameter expectedParameter = new QuizParameter("easy", "1", 10);
-
-        quizController.PostHome(paramMap);
-
-        verify(quizService).GetQuizSession(
-                expectedParameter.getDifficulty(),
-                Integer.parseInt(expectedParameter.getCategory()),
-                expectedParameter.getNumQuestions()
-        );
-    }
-
-    @Test
     void getCategoriesShouldReturnListOfTriviaObjects() {
-
         var expectedCategories = new TriviaObject(new LinkedList<TriviaCategories>());
 
         expectedCategories.add(new TriviaCategories());

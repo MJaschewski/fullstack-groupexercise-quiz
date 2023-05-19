@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState, Key } from 'react';
 import {CategoryType} from "./CategoryType";
+import axios from "axios";
 
 type Props = {
     questionCount: number;
@@ -32,29 +33,41 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
         }));
     };
 
+    const handleSubmit = (event: FormEvent) => {
+        event.preventDefault();
+
+        axios.post('http://localhost:3000/api/home', formData)
+            .then((response) => {
+                // Erfolgreiche Verarbeitung der Serverantwort
+                console.log(response.data);
+            })
+            .catch((error) => {
+                // Fehler beim Posten der Daten
+                console.error(error);
+            });
+    };
+
     return (
         <div>
-        <button onClick={()=>console.log(categories)}> Categories</button>
-        <form
-            action="http://localhost:3000/api/home"
-            method="POST"
-        >
-            <input
-                type="number"
-                name="questions"
-                value={formData.questions}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    const { value } = event.target;
-                    if (Number(value) > 0) {
-                        handleQuestionChange(event);
-                    } else {
-                        setFormData((prevData) => ({
-                            ...prevData,
-                            questions: "10",
-                        }));
-                    }
-                }}
-            />
+        <form onSubmit={handleSubmit}>
+            <label htmlFor="questions">Number of questions:
+                <input
+                    type="number"
+                    name="questions"
+                    value={formData.questions}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                        const { value } = event.target;
+                        if (Number(value) > 0) {
+                            handleQuestionChange(event);
+                        } else {
+                            setFormData((prevData) => ({
+                                ...prevData,
+                                questions: "10",
+                            }));
+                        }
+                    }}
+                />
+            </label>
             <br/>
             <br/>
             <label htmlFor="category">Choose a category: </label>
