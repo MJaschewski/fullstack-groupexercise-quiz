@@ -69,7 +69,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
             </label>
 
             <label>
-                <p>Choose difficulty</p>
+                <p>Choose difficulty:</p>
                 {difficultyLevels.map((level: React.Key) => (
                     <div key={level}>
                         <input
@@ -84,24 +84,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                     </div>
                 ))}
             </label>
-
-
-            {/*<label>
-                Difficulty:
-                <select
-                    name="difficulty"
-                    value={formData.difficulty}
-                    onChange={handleSelectChange}
-                >
-                    <option value="">Please select</option>
-                    {difficultyLevels.map((level) => (
-                        <option key={level.toString()} value={level.toString()}>
-                            {level}
-                        </option>
-                    ))}
-                </select>
-            </label>*/}
-
+            <br/>
             <button type="submit">Submit Form</button>
         </form>
     );
