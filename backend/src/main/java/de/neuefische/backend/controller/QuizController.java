@@ -27,7 +27,7 @@ public class QuizController {
     }
 
     @GetMapping("/categories")
-    public List<TriviaObject> getCategories() {
+    public TriviaObject getCategories() {
         return service.getCategories();
     }
 

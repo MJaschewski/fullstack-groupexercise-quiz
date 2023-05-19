@@ -1,8 +1,19 @@
 package de.neuefische.backend.model;
 
-public class TriviaObject {
-    TriviaCategories trivia_categories;
+import lombok.Data;
 
-    public TriviaObject(String number, String s) {
+import java.util.List;
+
+@Data
+public class TriviaObject {
+    List<TriviaCategories> trivia_categories;
+
+    public void add(TriviaCategories trivia_categories) {
+        this.trivia_categories.add(trivia_categories);
+    }
+
+    public TriviaObject(List<TriviaCategories> trivia_categories)
+    {
+        this.trivia_categories = trivia_categories;
     }
 }

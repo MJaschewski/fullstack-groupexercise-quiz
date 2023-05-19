@@ -2,6 +2,7 @@ package de.neuefische.backend.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import de.neuefische.backend.model.QuizParameter;
+import de.neuefische.backend.model.TriviaCategories;
 import de.neuefische.backend.model.TriviaObject;
 import de.neuefische.backend.service.QuizService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -49,14 +51,15 @@ class QuizControllerTest {
 
     @Test
     void getCategoriesShouldReturnListOfTriviaObjects() {
-        List<TriviaObject> expectedCategories = Arrays.asList(
-                new TriviaObject("1", "Category 1"),
-                new TriviaObject("2", "Category 2")
-        );
+
+        var expectedCategories = new TriviaObject(new LinkedList<TriviaCategories>());
+
+        expectedCategories.add(new TriviaCategories());
+        expectedCategories.add(new TriviaCategories());
 
         when(quizService.getCategories()).thenReturn(expectedCategories);
 
-        List<TriviaObject> actualCategories = quizController.getCategories();
+        TriviaObject actualCategories = quizController.getCategories();
 
         verify(quizService, times(1)).getCategories();
         assertEquals(expectedCategories, actualCategories);
