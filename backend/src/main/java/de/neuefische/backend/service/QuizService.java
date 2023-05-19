@@ -21,7 +21,7 @@ public class QuizService {
                 .getBody();
     }
 
-    public List<QuizSession> GetQuizSession(String difficulty, int category, Integer numQuestions) {
+    public List<QuizSession> getQuizSession(String difficulty, int category, Integer numQuestions) {
         WebClient client = WebClient.create("https://opentdb.com");
         return Objects.requireNonNull(client.get()
                         .uri("/api.php?amount=" + numQuestions + "&category=" + category + "&difficulty=" + difficulty + "&type=multiple")

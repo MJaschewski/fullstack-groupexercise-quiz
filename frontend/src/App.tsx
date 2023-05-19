@@ -24,7 +24,7 @@ function App() {
     <div className={"App"}>
       <header> <h1>Q U I Z M A S T E R 2000</h1></header>
     </div>
-      <div className={"App"}>
+      <div className={"QuizSelection"}>
        <h3>Create new Quiz:</h3>
         <h4>Choose options:</h4>
           {<QuizForm difficultyLevels={difficultyLevels} categories={categories.map(currentCategory =>currentCategory)} questionCount={10}/>}
