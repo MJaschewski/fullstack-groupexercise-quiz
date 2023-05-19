@@ -10,7 +10,6 @@ import java.util.Objects;
 
 @Service
 public class QuizService {
-
     public TriviaObject getCategories() {
         WebClient client = WebClient.create("https://opentdb.com");
         return Objects.requireNonNull(client.get()

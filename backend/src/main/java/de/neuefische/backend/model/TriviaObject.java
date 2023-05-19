@@ -16,4 +16,7 @@ public class TriviaObject {
     {
         this.trivia_categories = trivia_categories;
     }
+
+    public TriviaObject() {
+    }
 }
