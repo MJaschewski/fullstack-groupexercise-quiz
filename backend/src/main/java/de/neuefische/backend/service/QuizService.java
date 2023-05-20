@@ -15,9 +15,6 @@ public class QuizService {
 
     WebClient client = WebClient.create("https://opentdb.com");
 
-    public QuizService(WebClient client) {
-        this.client = client;
-    }
 
 
 
