@@ -57,7 +57,7 @@ class QuizControllerTest {
 
         quizController.getQuizSessions(paramMap);
 
-        verify(quizService, times(1)).GetQuizSession(
+        verify(quizService).getQuizSession(
                 expectedParameter.getDifficulty(),
                 Integer.parseInt(expectedParameter.getCategory()),
                 expectedParameter.getNumQuestions()

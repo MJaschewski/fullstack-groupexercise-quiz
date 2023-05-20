@@ -17,6 +17,10 @@ public class TriviaObject {
         this.trivia_categories = trivia_categories;
     }
 
+    public List<TriviaCategories> getTriviaCategories() {
+        return trivia_categories;
+    }
+
     public TriviaObject() {
     }
 }
