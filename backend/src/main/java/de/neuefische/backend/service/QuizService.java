@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -10,8 +11,12 @@ import java.util.Objects;
 
 @Service
 public class QuizService {
+
+    WebClient client = WebClient.create("https://opentdb.com");
+
+
     public TriviaObject getCategories() {
-        WebClient client = WebClient.create("https://opentdb.com");
+
         return Objects.requireNonNull(client.get()
                         .uri("/api_category.php")
                         .accept(MediaType.APPLICATION_JSON)
