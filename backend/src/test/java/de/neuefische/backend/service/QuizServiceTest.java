@@ -39,16 +39,13 @@ class QuizServiceTest {
 
     @Test
     void getCategoriesShouldReturnTriviaObject() {
-        // Arrange
         String jsonResponse = "{\"trivia_categories\": [{\"id\": 9,\"name\": \"General Knowledge\"}]}";
         mockWebServer.enqueue(new MockResponse()
                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .setBody(jsonResponse));
 
-        // Act
         TriviaObject triviaObject = quizService.getCategories();
 
-        // Assert
         assertEquals(1, triviaObject.getTriviaCategories().size());
         assertEquals(9, triviaObject.getTriviaCategories().get(0).getId());
         assertEquals("General Knowledge", triviaObject.getTriviaCategories().get(0).getName());
