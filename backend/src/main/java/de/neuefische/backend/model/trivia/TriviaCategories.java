@@ -1,4 +1,4 @@
-package de.neuefische.backend.model;
+package de.neuefische.backend.model.trivia;
 
 import lombok.Data;
 

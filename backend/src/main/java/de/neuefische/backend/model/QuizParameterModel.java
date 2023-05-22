@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class QuizParameter {
+public class QuizParameterModel {
     private String difficulty;
-    private String category;
+    private Integer category;
     private Integer numQuestions;
 }
