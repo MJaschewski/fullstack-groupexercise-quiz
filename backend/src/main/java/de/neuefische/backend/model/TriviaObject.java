@@ -1,27 +1,17 @@
 package de.neuefische.backend.model;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Data
+@RequiredArgsConstructor
 public class TriviaObject {
-    List<TriviaCategories> trivia_categories;
+    List<TriviaCategories> triviaCategories;
 
     public void add(TriviaCategories trivia_categories) {
-        this.trivia_categories.add(trivia_categories);
-    }
-
-    public TriviaObject(List<TriviaCategories> trivia_categories)
-    {
-        this.trivia_categories = trivia_categories;
-    }
-
-    public List<TriviaCategories> getTriviaCategories() {
-        return trivia_categories;
-    }
-
-    public TriviaObject() {
+        this.triviaCategories.add(trivia_categories);
     }
 }
 

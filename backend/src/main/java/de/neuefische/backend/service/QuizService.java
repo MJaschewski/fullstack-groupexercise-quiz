@@ -12,11 +12,7 @@ import java.util.Objects;
 @Service
 public class QuizService {
 
-
     WebClient client = WebClient.create("https://opentdb.com");
-
-
-
 
     public TriviaObject getCategories() {
 
