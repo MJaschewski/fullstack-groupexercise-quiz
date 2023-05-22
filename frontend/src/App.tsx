@@ -5,15 +5,11 @@ import axios from "axios";
 import {CategoryType} from "./components/CategoryType";
 import {Difficulty, fetchQuizQuestion, QuestionState} from "./Api";
 
-async function App() {
+function App() {
     const [categories, setCategories] = useState<CategoryType[]>([])
     const difficultyLevels = ['Easy', 'Normal', 'Hard'];
     const [questions, setQuestions] = useState<QuestionState[]>([])
 
-    const newQuestions = await fetchQuizQuestion(
-        //for example
-        10, Difficulty.EASY
-    )
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/categories')
