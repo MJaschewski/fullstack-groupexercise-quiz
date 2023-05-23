@@ -91,9 +91,13 @@ public class QuizService {
         question.setAnswer(answerModel.getAnswer());
     }
 
-    public boolean getResult(String sessionID, String questionID) throws Exception {
+    public Integer getResult(String sessionID, String questionID) {
         var session = sessionRepo.getSession(sessionID);
-        return session.getResult(questionID);
+
+        if (session.getQuestion(questionID).getUserAnswer() > 0) {
+            return session.getQuestion(questionID).getCorrectAnswer();
+        }
+        return -1;
     }
 
     public Integer getScore(String sessionID)

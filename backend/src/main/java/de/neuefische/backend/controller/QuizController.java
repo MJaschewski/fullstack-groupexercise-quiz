@@ -3,7 +3,8 @@ package de.neuefische.backend.controller;
 import de.neuefische.backend.model.AnswerModel;
 import de.neuefische.backend.model.QuestionModel;
 import de.neuefische.backend.model.QuizParameterModel;
-import de.neuefische.backend.model.SessionID;
+import de.neuefische.backend.model.REST.IDs;
+import de.neuefische.backend.model.REST.SessionID;
 import de.neuefische.backend.model.trivia.TriviaObject;
 import de.neuefische.backend.service.QuizService;
 import org.springframework.web.bind.annotation.*;
@@ -36,20 +37,13 @@ public class QuizController {
         service.setAnswer(answerModel);
     }
 
-    @GetMapping("/quiz/{questionID}")
-    public boolean getResult(@RequestBody SessionID sessionID, @PathVariable String questionID) {
-        try {
-            return service.getResult(sessionID.getSessionID(), questionID);
-        }
-        catch (Exception e) {
-            // return error code
-            // send Status 204
-        }
-        return false;
+    @GetMapping("/result")
+    public Integer getResult(@RequestBody IDs ids) {
+        return service.getResult(ids.getSessionID(), ids.getQuestionID());
     }
 
     @GetMapping("/score")
-    public Integer getScore(@RequestParam String sessionID) {
-        return service.getScore(sessionID);
+    public Integer getScore(@RequestBody SessionID sessionID) {
+        return service.getScore(sessionID.getSessionID());
     }
 }

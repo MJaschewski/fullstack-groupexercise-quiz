@@ -12,7 +12,6 @@ public class QuizSessionModel {
     private List<QuestionModel> questionList;
     private int currentQuestionIndex;
     private boolean done;
-    int score;
 
     public QuestionModel getCurrentQuestion() {
         return questionList.get(currentQuestionIndex);
@@ -38,6 +37,16 @@ public class QuizSessionModel {
         return null;
     }
 
+    public int getScore() {
+        int score = 0;
+        for (QuestionModel question : questionList) {
+            if (question.getCorrectAnswer() == question.getUserAnswer()) {
+                score++;
+            }
+        }
+        return score;
+    }
+
     public boolean incrementCurrentQuestionIndex() {
         if (hasNextQuestion()) {
             currentQuestionIndex++;
@@ -53,17 +62,9 @@ public class QuizSessionModel {
         return currentQuestionIndex < questionList.size()-1;
     }
 
-    public Integer incrementScore()
+    public Integer getResult(String questionID)
     {
-        return ++score;
-    }
-
-    public boolean getResult(String questionID) throws Exception {
-        for (QuestionModel question : questionList) {
-            if (question.getQuestionID().equals(questionID)) {
-                return question.isCorrect();
-            }
-        }
-        throw new Exception("Question not found");
+        // TODO: correct answer only if answered else -1
+        return getQuestion(questionID).getCorrectAnswer();
     }
 }
