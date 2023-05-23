@@ -1,6 +1,5 @@
 package de.neuefische.backend.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;

@@ -1,14 +1,11 @@
 package de.neuefische.backend.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.backend.model.AnswerModel;
 import de.neuefische.backend.model.QuestionModel;
 import de.neuefische.backend.model.QuizParameterModel;
 import de.neuefische.backend.model.SessionID;
 import de.neuefische.backend.model.trivia.TriviaObject;
 import de.neuefische.backend.service.QuizService;
-import jakarta.websocket.Session;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
