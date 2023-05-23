@@ -6,7 +6,6 @@ import de.neuefische.backend.model.trivia.TriviaQuestion;
 import de.neuefische.backend.model.trivia.TriviaQuestionObject;
 import de.neuefische.backend.repository.SessionRepo;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -35,14 +34,13 @@ public class QuizService {
     public TriviaQuestionObject getQuizData(String difficulty, Integer category, Integer numQuestions) {
         WebClient client = WebClient.create("https://opentdb.com");
 
-        var test = Objects.requireNonNull(client.get()
+        return Objects.requireNonNull(Objects.requireNonNull(client.get()
                         .uri("/api.php?amount=" + numQuestions + "&category=" + category.toString() + "&difficulty=" + difficulty.toLowerCase())
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .retrieve()
                         .toEntity(TriviaQuestionObject.class)
-                        .block()
+                        .block())
                 .getBody());
-        return test;
     }
 
     public String createQuizSession(QuizParameterModel quizParameter)
@@ -50,7 +48,7 @@ public class QuizService {
         var quizData = getQuizData(quizParameter.getDifficulty(), quizParameter.getCategory(), quizParameter.getNumQuestions());
 
         var newSession = new QuizSessionModel();
-        Integer counter = 1;
+        int counter = 1;
         for (TriviaQuestion newQuestion: quizData.results) {
             var quizQuestion = new QuestionModel(counter++);
             quizQuestion.setCategory(newQuestion.getCategory());
