@@ -1,10 +1,14 @@
 button[type=submit] {
-    padding:5px 15px;
+    /*padding:5px 15px;
     background:#ccc;
     border:0 none;
     cursor:pointer;
     -webkit-border-radius: 5px;
-    border-radius: 5px;
+    border-radius: 5px;*/
+    border-radius: 50px;
+    background: linear-gradient(145deg, #cfcfcf, #f6f6f6);
+    box-shadow:  20px 20px 60px #c4c4c4,
+    -20px -20px 60px #ffffff;
 }
 input[type=number] {
     padding:5px 15px;
