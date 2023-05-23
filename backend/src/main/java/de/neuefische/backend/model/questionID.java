@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AnswerModel {
-    String sessionID;
+public class questionID {
     String questionID;
-    Integer answer;
 }

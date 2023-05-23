@@ -2,8 +2,11 @@ package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.*;
 import de.neuefische.backend.model.trivia.TriviaObject;
+import de.neuefische.backend.model.trivia.TriviaQuestion;
 import de.neuefische.backend.model.trivia.TriviaQuestionObject;
 import de.neuefische.backend.repository.SessionRepo;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -31,13 +34,15 @@ public class QuizService {
 
     public TriviaQuestionObject getQuizData(String difficulty, Integer category, Integer numQuestions) {
         WebClient client = WebClient.create("https://opentdb.com");
-        return Objects.requireNonNull(client.get()
-                        .uri("/api.php?amount=" + numQuestions + "&category=" + category + "&difficulty=" + difficulty + "&type=multiple")
-                        .accept(MediaType.APPLICATION_JSON)
+
+        var test = Objects.requireNonNull(client.get()
+                        .uri("/api.php?amount=" + numQuestions + "&category=" + category.toString() + "&difficulty=" + difficulty.toLowerCase())
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .retrieve()
                         .toEntity(TriviaQuestionObject.class)
-                        .block())
-                .getBody();
+                        .block()
+                .getBody());
+        return test;
     }
 
     public String createQuizSession(QuizParameterModel quizParameter)
@@ -45,8 +50,9 @@ public class QuizService {
         var quizData = getQuizData(quizParameter.getDifficulty(), quizParameter.getCategory(), quizParameter.getNumQuestions());
 
         var newSession = new QuizSessionModel();
-        for (var newQuestion: (quizData.triviaQuestions)) {
-            var quizQuestion = new QuestionModel();
+        Integer counter = 1;
+        for (TriviaQuestion newQuestion: quizData.results) {
+            var quizQuestion = new QuestionModel(counter++);
             quizQuestion.setCategory(newQuestion.getCategory());
             quizQuestion.setType(newQuestion.getType());
             quizQuestion.setQuestion(newQuestion.getQuestion());
@@ -68,14 +74,17 @@ public class QuizService {
 
     public QuestionModel getQuestion(String sessionId) {
         var session = sessionRepo.getSession(sessionId);
+        var currentQuestion = session.getCurrentQuestion();
+        if (session.isDone()) {
+            return null;
+        }
         if (session.hasNextQuestion()) {
             session.incrementCurrentQuestionIndex();
         }
-        else
-        {
-            return null;
+        else {
+            session.setDone(true);
         }
-        return session.getCurrentQuestion();
+        return currentQuestion;
     }
 
     public void setAnswer(AnswerModel answerModel) {

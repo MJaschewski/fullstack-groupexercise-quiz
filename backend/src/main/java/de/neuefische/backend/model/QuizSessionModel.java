@@ -11,6 +11,7 @@ public class QuizSessionModel {
     private String sessionId;
     private List<QuestionModel> questionList;
     private int currentQuestionIndex;
+    private boolean done;
     int score;
 
     public QuestionModel getCurrentQuestion() {
@@ -28,12 +29,18 @@ public class QuizSessionModel {
     }
 
     public boolean incrementCurrentQuestionIndex() {
-        currentQuestionIndex++;
-        return hasNextQuestion();
+        if (hasNextQuestion()) {
+            currentQuestionIndex++;
+            return true;
+        }
+        else {
+            done = true;
+            return false;
+        }
     }
 
     public boolean hasNextQuestion() {
-        return currentQuestionIndex < questionList.size() - 1;
+        return currentQuestionIndex < questionList.size()-1;
     }
 
     public Integer incrementScore()
