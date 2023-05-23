@@ -87,7 +87,7 @@ public class QuizService {
 
     public void setAnswer(AnswerModel answerModel) {
         var session = sessionRepo.getSession(answerModel.getSessionID());
-        var question = session.getCurrentQuestion();
+        var question = session.getQuestion(answerModel.getQuestionID());
         question.setAnswer(answerModel.getAnswer());
     }
 

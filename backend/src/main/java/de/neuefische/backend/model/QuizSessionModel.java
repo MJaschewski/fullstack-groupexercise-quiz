@@ -28,6 +28,16 @@ public class QuizSessionModel {
         questionList.add(question);
     }
 
+    public QuestionModel getQuestion(String questionID) {
+        for (QuestionModel question : questionList)
+        {
+            if (question.getQuestionID().equals(questionID)) {
+                return question;
+            }
+        }
+        return null;
+    }
+
     public boolean incrementCurrentQuestionIndex() {
         if (hasNextQuestion()) {
             currentQuestionIndex++;
