@@ -1,25 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import './App.css';
 import QuizForm from './components/QuizForm'
-import axios from "axios";
 import {CategoryType} from "./components/CategoryType";
-import {Difficulty, fetchQuizQuestion, QuestionState} from "./Api";
+import {QuestionState} from "./Api";
 
 function App() {
-    const [categories, setCategories] = useState<CategoryType[]>([])
+    const categories:CategoryType[] = [{"id": 9, "name": "General Knowledge"}, {"id": 10, "name": "Entertainment: Books"}, {"id": 11, "name": "Entertainment: Film"},]
     const difficultyLevels = ['Easy', 'Normal', 'Hard'];
     const [questions, setQuestions] = useState<QuestionState[]>([])
-
-
-    useEffect(() => {
-        axios.get('http://localhost:3000/api/categories')
-            .then(response => response.data)
-            .then(data => {
-                setCategories(data.trivia_categories);
-                console.log(data.trivia_categories);
-            })
-            .catch(error => console.log(error));
-    }, []);
 
     return (
         <div>
@@ -30,7 +18,9 @@ function App() {
                 <h3>Create new Quiz:</h3>
                 <h4>Choose options:</h4>
                 {<QuizForm difficultyLevels={difficultyLevels}
-                           categories={categories.map(currentCategory => currentCategory)} questionCount={10}/>}
+                           categories={categories}
+                           questionCount={10}
+                />}
             </div>
         </div>
     );
