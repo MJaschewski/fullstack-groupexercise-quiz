@@ -1,6 +1,8 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.model.Question;
 import de.neuefische.backend.model.QuizParameter;
+import de.neuefische.backend.model.QuizRequest;
 import de.neuefische.backend.model.TriviaObject;
 import de.neuefische.backend.service.QuizService;
 import org.springframework.util.MultiValueMap;
@@ -18,8 +20,8 @@ public class QuizController {
         this.service = service;
     }
     @PostMapping(path="/home")
-    public void PostHome(@RequestParam String questions, @RequestParam String difficulty, @RequestParam String category) {
-        service.getQuizSession(difficulty, Integer.parseInt(category), Integer.parseInt(questions));
+    public List<Question> PostHome(@RequestBody QuizRequest quizRequest) {
+        return service.getQuizSession(quizRequest.getDifficulty(), quizRequest.getCategory(), quizRequest.getQuestions());
     }
 
     @GetMapping("/categories")
@@ -27,9 +29,4 @@ public class QuizController {
         return service.getCategories();
     }
 
-    @GetMapping("/quiz")
-    public void getQuizSessions(@RequestParam MultiValueMap<String,String> paramMap) {
-        QuizParameter quizParameter = new QuizParameter(paramMap.getFirst("difficulty"), paramMap.getFirst("category"), Integer.parseInt((paramMap.getFirst("numQuestions") == null)?"0":paramMap.getFirst("numQuestions")));
-        service.getQuizSession(quizParameter.getDifficulty(), Integer.parseInt(quizParameter.getCategory()), quizParameter.getNumQuestions());
-    }
 }

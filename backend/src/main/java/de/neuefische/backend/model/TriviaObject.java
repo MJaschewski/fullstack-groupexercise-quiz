@@ -9,7 +9,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TriviaObject {
     List<TriviaCategories> trivia_categories;
-
     public void add(TriviaCategories trivia_categories) {
         this.trivia_categories.add(trivia_categories);
     }
