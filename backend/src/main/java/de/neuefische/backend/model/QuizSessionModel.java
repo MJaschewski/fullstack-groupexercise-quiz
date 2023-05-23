@@ -61,10 +61,4 @@ public class QuizSessionModel {
     public boolean hasNextQuestion() {
         return currentQuestionIndex < questionList.size()-1;
     }
-
-    public Integer getResult(String questionID)
-    {
-        // TODO: correct answer only if answered else -1
-        return getQuestion(questionID).getCorrectAnswer();
-    }
 }
