@@ -1,4 +1,4 @@
-package de.neuefische.backend.model.REST;
+package de.neuefische.backend.model.rest;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SessionID {
-    String sessionID;
+    String SessionID;
 }

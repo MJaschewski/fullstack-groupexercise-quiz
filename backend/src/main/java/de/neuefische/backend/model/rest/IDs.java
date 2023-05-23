@@ -1,4 +1,4 @@
-package de.neuefische.backend.model.REST;
+package de.neuefische.backend.model.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IDs {
-    String sessionID;
-    String questionID;
+    String SessionID;
+    String QuestionID;
 }
