@@ -1,6 +1,6 @@
 package de.neuefische.backend.controller;
 
-import de.neuefische.backend.model.TriviaObject;
+import de.neuefische.backend.model.CategoryList;
 import de.neuefische.backend.service.QuizService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,7 @@ public class QuizController {
     private final QuizService service = new QuizService();
 
     @GetMapping("/categories")
-    public TriviaObject getCategories() {
+    public CategoryList getCategories() {
         return service.getCategories();
     }
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TriviaCategories {
+public class CategoryObject {
     Integer id;
     String name;
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @RequiredArgsConstructor
-public class TriviaObject {
-    private List<TriviaCategories> trivia_categories;
+public class CategoryList {
+    private List<CategoryObject> trivia_categories;
 }
 

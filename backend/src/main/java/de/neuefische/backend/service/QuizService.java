@@ -1,6 +1,6 @@
 package de.neuefische.backend.service;
 
-import de.neuefische.backend.model.TriviaObject;
+import de.neuefische.backend.model.CategoryList;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -9,18 +9,18 @@ import java.util.Objects;
 
 @Service
 public class QuizService {
-    private TriviaObject categories;
+    private CategoryList categoryList;
 
-    WebClient client = WebClient.create("https://opentdb.com");
+    WebClient webClient = WebClient.create("https://opentdb.com");
 
-    public TriviaObject getCategories() {
-        categories = Objects.requireNonNull(client.get()
+    public CategoryList getCategories() {
+        categoryList = Objects.requireNonNull(webClient.get()
                         .uri("/api_category.php")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
-                        .toEntity(TriviaObject.class)
+                        .toEntity(CategoryList.class)
                         .block())
                 .getBody();
-        return categories;
+        return categoryList;
     }
 }
