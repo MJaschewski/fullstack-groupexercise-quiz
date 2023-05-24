@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.CategoryList;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -8,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class QuizService {
 
     WebClient webClient = WebClient.create("https://opentdb.com");

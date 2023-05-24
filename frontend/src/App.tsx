@@ -12,7 +12,6 @@ function App() {
         .then(response => response.data)
         .then(data => {
           setCategories(data.trivia_categories);
-          console.log(data.trivia_categories);
         })
         .catch(error => console.log(error));
   }, []);
@@ -25,10 +24,7 @@ function App() {
         <div className={"QuizSelection"}>
           <h3>Create new Quiz:</h3>
           <h4>Choose options:</h4>
-          {<QuizForm difficultyLevels={difficultyLevels}
-                     categories={categories.map(currentCategory => currentCategory.name)}
-                     questionCount={10}
-          />}
+          {<QuizForm categories={categories.map(currentCategory => currentCategory.name)}/>}
         </div>
       </div>
   );
