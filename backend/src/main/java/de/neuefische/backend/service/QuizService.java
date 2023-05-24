@@ -13,13 +13,12 @@ public class QuizService {
     WebClient webClient = WebClient.create("https://opentdb.com");
 
     public CategoryList getCategories() {
-        CategoryList categoryList = Objects.requireNonNull(webClient.get()
+        return Objects.requireNonNull(webClient.get()
                         .uri("/api_category.php")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
                         .toEntity(CategoryList.class)
                         .block())
                 .getBody();
-        return categoryList;
     }
 }
