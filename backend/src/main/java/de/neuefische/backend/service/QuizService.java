@@ -29,7 +29,7 @@ public class QuizService {
         return categories;
     }
 
-    public TriviaApiResponse getQuizSession(String difficulty, String category, String numQuestions) {
+    public TriviaApiResponse getQuizSession(String difficulty, String category, String numQuestions){
         int categoryId = -1;
         if (category != null) {
             getCategories();
@@ -39,7 +39,6 @@ public class QuizService {
                 categoryId = categories.getTrivia_categories().get(i).getId();
             }
         }
-        System.out.println(categoryId);
         WebClient webClient = WebClient.create("https://opentdb.com");
         return Objects.requireNonNull(webClient.get()
                         .uri("/api.php?amount=" + numQuestions + "&category=" + categoryId + "&difficulty=" + difficulty + "&type=multiple")
@@ -48,7 +47,5 @@ public class QuizService {
                         .toEntity(TriviaApiResponse.class)
                         .block())
                 .getBody();
-
-
     }
 }
