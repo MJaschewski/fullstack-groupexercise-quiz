@@ -8,8 +8,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 class QuizController_IntegrationTests {
@@ -122,7 +120,7 @@ class QuizController_IntegrationTests {
                 }
                 """;
          //When & Then
-         mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:3000/api/categories"))
+         mockMvc.perform(MockMvcRequestBuilders.get("/api/categories"))
                  .andExpect(MockMvcResultMatchers.status().isOk())
                  .andExpect(MockMvcResultMatchers.content().json(apiResponse));
      }
