@@ -38,6 +38,7 @@ public class QuizService {
                 categoryId = categories.getTrivia_categories().get(i).getId();
             }
         }
+        System.out.println(categoryId);
         WebClient client = WebClient.create("https://opentdb.com");
         return Objects.requireNonNull(client.get()
                         .uri("/api.php?amount=" + questionNum + "&category=" + categoryId + "&difficulty=" + difficulty + "&type=multiple")

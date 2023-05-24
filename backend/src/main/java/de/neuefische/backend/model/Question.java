@@ -15,7 +15,7 @@ public class Question {
     private String type;
     private String difficulty;
     private String question;
-    private String correctAnswer;
-    private List<String> incorrectAnswers;
+    private String correct_answer;
+    private List<String> incorrect_answers;
 
 }
