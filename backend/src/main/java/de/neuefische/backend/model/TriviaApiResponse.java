@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class TriviaApiResponse {
     private int response_code;
-    private List<Question> results;
+    private List<QuestionApi> results;
 
 }

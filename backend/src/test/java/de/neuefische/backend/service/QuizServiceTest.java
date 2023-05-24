@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.backend.model.CategoryList;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,6 +14,7 @@ class QuizServiceTest {
     QuizService quizService = new QuizService();
 
     @Test
+    @DirtiesContext
     void when_getCategories_return_categoryList() throws JsonProcessingException {
         //Given
         String apiResponse = """ 

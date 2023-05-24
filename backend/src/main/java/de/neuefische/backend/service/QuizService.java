@@ -1,15 +1,11 @@
 package de.neuefische.backend.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.backend.model.CategoryList;
-import de.neuefische.backend.model.Question;
 import de.neuefische.backend.model.TriviaApiResponse;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -39,7 +35,6 @@ public class QuizService {
                 categoryId = categories.getTrivia_categories().get(i).getId();
             }
         }
-        WebClient webClient = WebClient.create("https://opentdb.com");
         return Objects.requireNonNull(webClient.get()
                         .uri("/api.php?amount=" + numQuestions + "&category=" + categoryId + "&difficulty=" + difficulty + "&type=multiple")
                         .accept(MediaType.APPLICATION_JSON)

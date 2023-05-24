@@ -12,8 +12,8 @@ import java.util.List;
 public class QuizSession {
     private String sessionId;
     private String questionId;
-    private List<Question> questionList;
+    private List<QuestionApi> questionList;
     private int currentQuestionIndex;
-    private Question[] questionRepo;
+    private QuestionApi[] questionRepo;
     private Boolean[] scoreRepo;
 }
