@@ -5,7 +5,7 @@ import {CategoryType} from "./components/CategoryType";
 import axios from "axios";
 
 function App() {
-  const difficultyLevels = ['Easy', 'Normal', 'Hard'];
+  const difficultyLevels = ['easy', 'normal', 'hard'];
   const [categories, setCategories] = useState<CategoryType[]>([])
   useEffect(() => {
     axios.get('http://localhost:3000/api/categories')

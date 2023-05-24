@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Data
 public class Question {
     private String category;

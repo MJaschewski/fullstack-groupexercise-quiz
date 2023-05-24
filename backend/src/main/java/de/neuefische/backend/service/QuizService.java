@@ -1,5 +1,7 @@
 package de.neuefische.backend.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.backend.model.CategoryList;
 import de.neuefische.backend.model.Question;
 import de.neuefische.backend.model.TriviaApiResponse;
@@ -28,7 +30,6 @@ public class QuizService {
     }
 
     public TriviaApiResponse getQuizSession(String difficulty, String category, String numQuestions) {
-        int questionNum = Integer.parseInt(numQuestions);
         int categoryId = -1;
         if (category != null) {
             getCategories();
@@ -39,14 +40,15 @@ public class QuizService {
             }
         }
         System.out.println(categoryId);
-        WebClient client = WebClient.create("https://opentdb.com");
-        return Objects.requireNonNull(client.get()
-                        .uri("/api.php?amount=" + questionNum + "&category=" + categoryId + "&difficulty=" + difficulty + "&type=multiple")
+        WebClient webClient = WebClient.create("https://opentdb.com");
+        return Objects.requireNonNull(webClient.get()
+                        .uri("/api.php?amount=" + numQuestions + "&category=" + categoryId + "&difficulty=" + difficulty + "&type=multiple")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
                         .toEntity(TriviaApiResponse.class)
                         .block())
                 .getBody();
+
 
     }
 }

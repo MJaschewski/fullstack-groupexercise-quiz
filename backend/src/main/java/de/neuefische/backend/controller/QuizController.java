@@ -1,5 +1,6 @@
 package de.neuefische.backend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import de.neuefische.backend.model.CategoryList;
 import de.neuefische.backend.model.Question;
 import de.neuefische.backend.model.QuizRequest;
@@ -21,8 +22,8 @@ public class QuizController {
     }
 
     @PostMapping(path="/home")
-    public TriviaApiResponse PostHome(@RequestBody QuizRequest quizRequest) {
-        return service.getQuizSession(quizRequest.getDifficulty(), quizRequest.getCategory(), quizRequest.getQuestions());
+    public List<Question> PostHome(@RequestBody QuizRequest quizRequest) {
+        return service.getQuizSession(quizRequest.getDifficulty(), quizRequest.getCategory(), quizRequest.getQuestions()).getResults();
     }
 
 }
