@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api")
 public class QuizController {
-    QuizService service;
+
+    private final QuizService service = new QuizService();
 
     @GetMapping("/categories")
     public TriviaObject getCategories() {
