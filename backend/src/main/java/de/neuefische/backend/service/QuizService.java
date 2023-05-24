@@ -9,12 +9,11 @@ import java.util.Objects;
 
 @Service
 public class QuizService {
-    private CategoryList categoryList;
 
     WebClient webClient = WebClient.create("https://opentdb.com");
 
     public CategoryList getCategories() {
-        categoryList = Objects.requireNonNull(webClient.get()
+        CategoryList categoryList = Objects.requireNonNull(webClient.get()
                         .uri("/api_category.php")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
