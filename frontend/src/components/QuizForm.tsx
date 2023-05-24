@@ -1,5 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState, Key } from 'react';
-import axios from "axios";
+import React, {ChangeEvent, useState} from 'react';
 import './QuizForm.css'
 
 type Props = {
