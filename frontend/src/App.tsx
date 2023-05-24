@@ -7,7 +7,7 @@ import axios from "axios";
 function App() {
   const [categories, setCategories] = useState<CategoryType[]>([])
   useEffect(() => {
-    axios.get('http://localhost:3000/api/categories')
+    axios.get('/api/categories')
         .then(response => response.data)
         .then(data => {
           setCategories(data.trivia_categories);
