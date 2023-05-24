@@ -14,7 +14,7 @@ public class Question {
     private String category;
     private String type;
     private String difficulty;
-    private String questionDetails;
+    private String question;
     private String correctAnswer;
     private List<String> incorrectAnswers;
 

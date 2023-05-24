@@ -3,6 +3,7 @@ package de.neuefische.backend.controller;
 import de.neuefische.backend.model.CategoryList;
 import de.neuefische.backend.model.Question;
 import de.neuefische.backend.model.QuizRequest;
+import de.neuefische.backend.model.TriviaApiResponse;
 import de.neuefische.backend.service.QuizService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class QuizController {
     }
 
     @PostMapping(path="/home")
-    public List<Question> PostHome(@RequestBody QuizRequest quizRequest) {
+    public TriviaApiResponse PostHome(@RequestBody QuizRequest quizRequest) {
         return service.getQuizSession(quizRequest.getDifficulty(), quizRequest.getCategory(), quizRequest.getQuestions());
     }
 
