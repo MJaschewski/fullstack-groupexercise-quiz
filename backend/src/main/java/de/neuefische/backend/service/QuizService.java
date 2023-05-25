@@ -3,7 +3,6 @@ package de.neuefische.backend.service;
 import de.neuefische.backend.model.CategoryList;
 import lombok.RequiredArgsConstructor;
 import de.neuefische.backend.model.TriviaApiResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
