@@ -22,8 +22,13 @@ public class QuizController {
     }
 
     @PostMapping(path = "/home")
-    public List<QuestionUnsorted> postHome(@RequestBody QuizRequest quizRequest) {
-        return service.postQuizSession(quizRequest.getDifficulty(), quizRequest.getCategory(), quizRequest.getQuestions());
+    public Boolean postQuizSession(@RequestBody QuizRequest quizRequest) {
+        return service.setTriviaApiResponse(quizRequest.getDifficulty(), quizRequest.getCategory(), quizRequest.getQuestions());
+    }
+
+    @GetMapping("/questions")
+    public List<QuestionUnsorted> getQuestions() {
+        return service.getQuestionUnsortedList();
     }
 
 }

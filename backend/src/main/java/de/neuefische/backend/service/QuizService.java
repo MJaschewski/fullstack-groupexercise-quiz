@@ -33,7 +33,7 @@ public class QuizService {
         return categories;
     }
 
-    public TriviaApiResponse setTriviaApiResponse(String difficulty, String category, String numQuestions) {
+    public Boolean setTriviaApiResponse(String difficulty, String category, String numQuestions) {
         int categoryId = -1;
         if (category != null) {
             getCategories();
@@ -51,10 +51,10 @@ public class QuizService {
                         .toEntity(TriviaApiResponse.class)
                         .block())
                 .getBody();
-        return triviaApiResponse;
+        return !triviaApiResponse.equals(List.of());
     }
 
-    public List<QuestionUnsorted> setQuestionUnsortedList() {
+    public List<QuestionUnsorted> getQuestionUnsortedList() {
 
         List<QuestionUnsorted> questionUnsortedList = new ArrayList<>();
         for (int i = 0; i < triviaApiResponse.getResults().size(); i++) {
@@ -73,11 +73,6 @@ public class QuizService {
         }
         this.questionUnsortedList = questionUnsortedList;
         return questionUnsortedList;
-    }
-
-    public List<QuestionUnsorted> postQuizSession(String difficulty, String category, String numQuestions) {
-        setTriviaApiResponse(difficulty, category, numQuestions);
-        return setQuestionUnsortedList();
     }
 
 }
