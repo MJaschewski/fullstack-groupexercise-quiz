@@ -21,8 +21,8 @@ public class QuizController {
         return service.getCategories();
     }
 
-    @PostMapping(path = "/home")
-    public Boolean postQuizSession(@RequestBody QuizRequest quizRequest) {
+    @PostMapping("/home")
+    public boolean postQuizSession(@RequestBody QuizRequest quizRequest) {
         return service.setTriviaApiResponse(quizRequest.getDifficulty(), quizRequest.getCategory(), quizRequest.getQuestions());
     }
 

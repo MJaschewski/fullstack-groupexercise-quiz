@@ -33,7 +33,7 @@ public class QuizService {
         return categories;
     }
 
-    public Boolean setTriviaApiResponse(String difficulty, String category, String numQuestions) {
+    public boolean setTriviaApiResponse(String difficulty, String category, String numQuestions) {
         int categoryId = -1;
         if (category != null) {
             getCategories();
