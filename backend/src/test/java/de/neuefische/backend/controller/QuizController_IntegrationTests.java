@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -12,7 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -135,7 +136,7 @@ class QuizController_IntegrationTests {
     }
 
     @Test
-    void shouldReturnAllCategoriesFromApiAndStatus200() {
+    void shouldReturnAllCategoriesFromApi_Status200() {
         this.webTestClient = WebTestClient.bindToServer().baseUrl("https://opentdb.com").build();
         webTestClient
                 .get()
@@ -240,14 +241,72 @@ class QuizController_IntegrationTests {
                         {
                             "id": 31,
                             "name": "Entertainment: Japanese Anime & Manga"
-                        },
-                        {
-                            "id": 32,
-                            "name": "Entertainment: Cartoon & Animations"
-                        }
-                    ]
-                }
-""");
+                                                },
+                                                {
+                                                    "id": 32,
+                                                    "name": "Entertainment: Cartoon & Animations"
+                                                }
+                                            ]
+                                        }
+                        """);
     }
 
+    @Test
+    void postMapping_postHome_return_200Ok_returns_correctAmountOfQuestions() throws Exception {
+
+        //When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/home")
+                        .contentType(APPLICATION_JSON)
+                        .content("""
+                                   {
+                                       "questions":"3"
+                                        ,"category":"General Knowledge"
+                                        ,"difficulty":"easy"
+                                    }
+                                """))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()").value(3));
+
+    }
+
+    @Test
+    @DirtiesContext
+    void postMapping_postHome_return_200Ok_return_correctCategoryQuestions() throws Exception {
+
+        //When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/home")
+                        .contentType(APPLICATION_JSON)
+                        .content("""
+                                   {
+                                       "questions":"3"
+                                        ,"category":"General Knowledge"
+                                        ,"difficulty":"easy"
+                                    }
+                                """))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].category").value("General Knowledge"));
+
+    }
+
+    @Test
+    @DirtiesContext
+    void postMapping_postHome_return_200Ok_return_correctDifficultyQuestions() throws Exception {
+
+        //When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/home")
+                        .contentType(APPLICATION_JSON)
+                        .content("""
+                                   {
+                                       "questions":"3"
+                                        ,"category":"General Knowledge"
+                                        ,"difficulty":"easy"
+                                    }
+                                """))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].difficulty").value("easy"));
+
+    }
 }
