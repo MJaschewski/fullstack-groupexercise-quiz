@@ -1,13 +1,10 @@
 package de.neuefische.backend.controller;
 
 import de.neuefische.backend.model.CategoryList;
-import de.neuefische.backend.model.QuestionApi;
+import de.neuefische.backend.model.QuestionUnsorted;
 import de.neuefische.backend.model.QuizRequest;
 import de.neuefische.backend.service.QuizService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +21,9 @@ public class QuizController {
         return service.getCategories();
     }
 
-    @PostMapping(path="/home")
-    public List<QuestionApi> postHome(@RequestBody QuizRequest quizRequest) {
-        return service.getQuizSession(quizRequest.getDifficulty(), quizRequest.getCategory(), quizRequest.getQuestions()).getResults();
+    @PostMapping(path = "/home")
+    public List<QuestionUnsorted> postHome(@RequestBody QuizRequest quizRequest) {
+        return service.postQuizSession(quizRequest.getDifficulty(), quizRequest.getCategory(), quizRequest.getQuestions());
     }
 
 }
