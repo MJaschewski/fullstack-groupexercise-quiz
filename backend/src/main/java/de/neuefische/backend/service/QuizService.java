@@ -51,7 +51,11 @@ public class QuizService {
                         .toEntity(TriviaApiResponse.class)
                         .block())
                 .getBody();
-        return !this.triviaApiResponse.equals(List.of());
+        try {
+            return !this.triviaApiResponse.equals(List.of());
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     public List<QuestionUnsorted> getQuestionUnsortedList() {
