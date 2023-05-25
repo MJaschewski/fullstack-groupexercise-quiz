@@ -4,20 +4,29 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@SpringBootTest
+import static org.springframework.http.HttpHeaders.ACCEPT;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class QuizController_IntegrationTests {
     @Autowired
     MockMvc mockMvc;
 
-     @Test
-    void getMapping_getCategoryList_return_200Ok_return_Categories() throws Exception{
-         //Given
-         String apiResponse = """ 
+    @Autowired
+    WebTestClient webTestClient;
+
+    @Test
+    void getMapping_getCategoryList_return_200Ok_return_Categories() throws Exception {
+        //Given
+        String apiResponse = """ 
                     {
                     "trivia_categories": [
                         {
@@ -119,10 +128,25 @@ class QuizController_IntegrationTests {
                     ]
                 }
                 """;
-         //When & Then
-         mockMvc.perform(MockMvcRequestBuilders.get("/api/categories"))
-                 .andExpect(MockMvcResultMatchers.status().isOk())
-                 .andExpect(MockMvcResultMatchers.content().json(apiResponse));
-     }
+        //When & Then
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/categories"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(apiResponse));
+    }
+
+    @Test
+    void shouldReturnAllCategoriesFromApiAndStatus200() {
+        this.webTestClient = WebTestClient.bindToServer().baseUrl("https://opentdb.com").build();
+        webTestClient
+                .get()
+                .uri("/api_category.php")
+                .header(ACCEPT, APPLICATION_JSON_VALUE)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader()
+                .contentType(APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.trivia_categories[0].name").isEqualTo("General Knowledge");
+    }
 
 }
