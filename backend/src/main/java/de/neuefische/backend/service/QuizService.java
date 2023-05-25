@@ -51,12 +51,12 @@ public class QuizService {
                         .toEntity(TriviaApiResponse.class)
                         .block())
                 .getBody();
-        return !triviaApiResponse.equals(List.of());
+        return !this.triviaApiResponse.equals(List.of());
     }
 
     public List<QuestionUnsorted> getQuestionUnsortedList() {
 
-        List<QuestionUnsorted> questionUnsortedList = new ArrayList<>();
+        List<QuestionUnsorted> newQuestionUnsortedList = new ArrayList<>();
         for (int i = 0; i < triviaApiResponse.getResults().size(); i++) {
             QuestionUnsorted nextQuestion = new QuestionUnsorted();
             nextQuestion.setDescription(triviaApiResponse.getResults().get(i).getQuestion());
@@ -69,9 +69,9 @@ public class QuizService {
             Collections.shuffle(unsortedAnswers);
             nextQuestion.setAnswers(unsortedAnswers);
 
-            questionUnsortedList.add(nextQuestion);
+            newQuestionUnsortedList.add(nextQuestion);
         }
-        this.questionUnsortedList = questionUnsortedList;
+        this.questionUnsortedList = newQuestionUnsortedList;
         return questionUnsortedList;
     }
 
