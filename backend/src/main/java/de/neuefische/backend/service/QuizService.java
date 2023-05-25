@@ -51,9 +51,9 @@ public class QuizService {
                         .toEntity(TriviaApiResponse.class)
                         .block())
                 .getBody();
-        try {
+        if (this.triviaApiResponse != null) {
             return !this.triviaApiResponse.equals(List.of());
-        } catch (NullPointerException e) {
+        } else {
             return false;
         }
     }
