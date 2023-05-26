@@ -6,7 +6,7 @@ function QuestionCard(props: Question) {
         <div>
             <h3>key={props.description}</h3>
             {props.answers.map(currentAnswer => {
-                return <p key={'index'}>{currentAnswer}</p>
+                return <p key={"index_" + currentAnswer}>{currentAnswer}</p>
             })}
         </div>
     );

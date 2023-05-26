@@ -20,9 +20,10 @@ const Questions = () => {
 
     return (
         <div>
-            {questionsUnsortedList.map((currentQuestion: Question) => <QuestionCard key={"questionCard"}
-                                                                                    description={currentQuestion.description}
-                                                                                    answers={currentQuestion.answers}/>)}
+            {questionsUnsortedList.map((currentQuestion: Question) => <QuestionCard
+                key={"questionCard_" + currentQuestion.description}
+                description={currentQuestion.description}
+                answers={currentQuestion.answers}/>)}
         </div>
     );
 }
