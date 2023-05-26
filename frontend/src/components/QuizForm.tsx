@@ -58,7 +58,7 @@ const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
                             value={formData.questions}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => {
                                 const {value} = event.target;
-                                if (Number(value) > 0) {
+                                if (Number(value) > 0 && Number(value) <= 20) {
                                     handleQuestionChange(event);
                                 } else {
                                     setFormData((prevData) => ({
