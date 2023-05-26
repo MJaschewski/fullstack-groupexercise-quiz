@@ -104,7 +104,9 @@ const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
                         ))}
                     </label>
                     <br/>
-                    <button type="submit">Submit Form</button>
+                    {(formData.category !== '' && formData.difficulty !== '' && formData.questions !== '')
+                        ? <button type="submit">Submit Form</button>
+                        : <></>}
                 </form>
             </div>
         </div>
