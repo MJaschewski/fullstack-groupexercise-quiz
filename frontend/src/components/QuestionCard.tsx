@@ -4,9 +4,9 @@ import {Question} from "./QuestionType";
 function QuestionCard(props: Question) {
     return (
         <div>
-            <h3>{props.description}</h3>
+            <h3>key={props.description}</h3>
             {props.answers.map(currentAnswer => {
-                return <p>{currentAnswer}</p>
+                return <p>key={currentAnswer}</p>
             })}
         </div>
     );
