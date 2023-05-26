@@ -21,13 +21,20 @@ const Questions = () => {
     }
 
     function setSingleAnswer(submittedAnswer:UserAnswer){
+        let included = false;
         setUsersAnswer(userAnswers.map(currentAnswer => {
-            if(currentAnswer.description === submittedAnswer.description ){
+            if (currentAnswer.description === submittedAnswer.description) {
+                included = true;
                 return submittedAnswer;
-            }else  {
+            } else {
                 return currentAnswer;
             }
         }))
+        if (!included) {
+            let updatedUserAnswers = userAnswers;
+            updatedUserAnswers.push(submittedAnswer);
+            setUsersAnswer(updatedUserAnswers);
+        }
     }
 
     useEffect(() => {
@@ -35,13 +42,7 @@ const Questions = () => {
             .then(response => response.data)
             .then(data => {
                 setQuestionsUnsortedList(data);
-                console.log(data);
             })
-            .then(
-                () => setUsersAnswer(questionsUnsortedList.map(currentQuestion => {
-                    return  {description:currentQuestion.description,answer:""};
-                }))
-            )
             .catch(error => console.log(error));
     }, []);
 
