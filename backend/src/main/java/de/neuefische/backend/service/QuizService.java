@@ -1,5 +1,6 @@
 package de.neuefische.backend.service;
 
+import de.neuefische.backend.model.AnswerDTO;
 import de.neuefische.backend.model.CategoryList;
 import de.neuefische.backend.model.QuestionUnsorted;
 import de.neuefische.backend.model.TriviaApiResponse;
@@ -19,6 +20,8 @@ public class QuizService {
     private CategoryList categories;
     private TriviaApiResponse triviaApiResponse;
     private List<QuestionUnsorted> questionUnsortedList;
+    private int correctAnswers = 0;
+    private int numOfQuestions = 0;
 
     WebClient webClient = WebClient.create("https://opentdb.com");
 
@@ -52,6 +55,7 @@ public class QuizService {
                         .block())
                 .getBody();
         if (this.triviaApiResponse != null) {
+            numOfQuestions = triviaApiResponse.getResults().size();
             return !this.triviaApiResponse.equals(List.of());
         } else {
             return false;
@@ -59,7 +63,6 @@ public class QuizService {
     }
 
     public List<QuestionUnsorted> getQuestionUnsortedList() {
-
         List<QuestionUnsorted> newQuestionUnsortedList = new ArrayList<>();
         for (int i = 0; i < triviaApiResponse.getResults().size(); i++) {
             QuestionUnsorted nextQuestion = new QuestionUnsorted();
@@ -79,4 +82,18 @@ public class QuizService {
         return questionUnsortedList;
     }
 
+    public String postAnswers(AnswerDTO answerDTO) {
+        String result = "Score: ";
+        int numOfAnswers = answerDTO.getAnswerObjectList().size();
+        for (int i = 0; i < numOfAnswers; i++) {
+            for (int j = 0; j < numOfQuestions; j++) {
+                if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getDescription(), triviaApiResponse.getResults().get(j).getQuestion())) {
+                    if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getAnswer(), triviaApiResponse.getResults().get(j).getCorrect_answer())) {
+                        correctAnswers++;
+                    }
+                }
+            }
+        }
+        return result + " " + correctAnswers + "/" + numOfQuestions;
+    }
 }

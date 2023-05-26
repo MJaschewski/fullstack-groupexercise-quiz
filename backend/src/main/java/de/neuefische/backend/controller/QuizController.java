@@ -1,5 +1,6 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.model.AnswerDTO;
 import de.neuefische.backend.model.CategoryList;
 import de.neuefische.backend.model.QuestionUnsorted;
 import de.neuefische.backend.model.QuizRequest;
@@ -29,6 +30,11 @@ public class QuizController {
     @GetMapping("/questions")
     public List<QuestionUnsorted> getQuestions() {
         return service.getQuestionUnsortedList();
+    }
+
+    @PostMapping("/questions")
+    public String postAnswers(@RequestBody AnswerDTO answerDTO) {
+        return service.postAnswers(answerDTO);
     }
 
 }
