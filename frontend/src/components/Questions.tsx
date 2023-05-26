@@ -18,7 +18,6 @@ const Questions = () => {
             .catch(error => console.log(error));
     }, []);
 
-    const [userAnswer, set] = useState<{ description: string, answer: string }[]>()
 
     return (
         <div>
