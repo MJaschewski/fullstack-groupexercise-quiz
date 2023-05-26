@@ -1,0 +1,14 @@
+# fly.toml app configuration file generated for floral-glade-8333 on 2023-05-24T17:40:19+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "floral-glade-8333"
+primary_region = "ams"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
