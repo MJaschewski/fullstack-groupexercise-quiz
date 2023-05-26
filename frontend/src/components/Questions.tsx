@@ -14,6 +14,10 @@ const Questions = () => {
     const handleNext =() => {
         setCurrentIndex((prevIndex) => prevIndex + 1)
     }
+    const handleClickSubmit = () => {
+        // Hier kannst du die Logik für den Submit-Button hinzufügen
+        console.log("Submit clicked!");
+    }
 
     function setSingleAnswer(submittedAnswer:UserAnswer){
         setUsersAnswer(userAnswers.map(currentAnswer => {
@@ -40,7 +44,8 @@ const Questions = () => {
             .catch(error => console.log(error));
     }, []);
 
-    const currentQuestion = questionsUnsortedList[currentIndex];
+    const currentQuestion = questionsUnsortedList[currentIndex]
+    const isLastQuestion = currentIndex === questionsUnsortedList.length - 1
 
 
     return (
@@ -52,7 +57,11 @@ const Questions = () => {
                     description={currentQuestion.description}
                     answers={currentQuestion.answers}/>
             )}
-            <button onClick={handleNext}>Next</button>
+            {isLastQuestion ? (
+                <button onClick={handleClickSubmit}>Submit</button>
+            ) : (
+                <button onClick={handleNext}>Next</button>
+            )}
         </div>
     );
 }
