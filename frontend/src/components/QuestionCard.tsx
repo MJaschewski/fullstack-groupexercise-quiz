@@ -1,11 +1,16 @@
-import React, {useState} from 'react';
-import {Question} from "./QuestionType";
+import React from 'react';
+import {UserAnswer} from "./UserAnswerType";
 
-function QuestionCard(props: Question) {
-    const [userAnswer, setUserAnswer] = useState<{ description: string, answer: string }>()
+type Props = {
+    description: string,
+    answers: string[],
+    setSingleAnswer: (submittedAnswer: UserAnswer) => void
+}
+
+function QuestionCard(props: Props) {
 
     const handleButtonClick = (selectedAnswer: string) => {
-        return setUserAnswer({description: props.description, answer: selectedAnswer});
+        props.setSingleAnswer({description: props.description, answer: selectedAnswer});
     }
 
     return (
