@@ -15,8 +15,9 @@ const Questions = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1)
     }
     const handleClickSubmit = () => {
-        // Hier kannst du die Logik für den Submit-Button hinzufügen
-        console.log("Submit clicked!");
+        axios.post('/api/questions', userAnswers)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
     }
 
     function setSingleAnswer(submittedAnswer:UserAnswer){
