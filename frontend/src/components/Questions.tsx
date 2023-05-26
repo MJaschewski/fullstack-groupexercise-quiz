@@ -9,14 +9,16 @@ const Questions = () => {
 
     const [questionsUnsortedList, setQuestionsUnsortedList] = useState<Question[]>([])
     useEffect(() => {
-    axios.get('/api/questions')
-        .then(response => response.data)
-        .then(data => {
-            setQuestionsUnsortedList(data);
-            console.log(data);
-        })
-        .catch(error => console.log(error));
+        axios.get('/api/questions')
+            .then(response => response.data)
+            .then(data => {
+                setQuestionsUnsortedList(data);
+                console.log(data);
+            })
+            .catch(error => console.log(error));
     }, []);
+
+    const [userAnswer, set] = useState<{ description: string, answer: string }[]>()
 
     return (
         <div>

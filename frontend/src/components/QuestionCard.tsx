@@ -10,6 +10,7 @@ function QuestionCard(props: Question) {
             {props.answers.map(currentAnswer => {
                 return <p key={"index_" + currentAnswer}>{Buffer.from(currentAnswer, 'base64').toString()}</p>
             })}
+            <button>Buffer.from(currentAnswer, 'base64').toString()</button>
         </div>
     );
 }
