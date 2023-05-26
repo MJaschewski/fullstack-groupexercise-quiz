@@ -7,7 +7,7 @@ import {Route, Routes} from "react-router-dom";
 import Questions from "./components/Questions";
 
 function App() {
-    const difficultyLevels = ['easy', ',medium', 'hard'];
+    const difficultyLevels = ['easy', 'medium', 'hard'];
     const [categories, setCategories] = useState<CategoryType[]>([])
     useEffect(() => {
         axios.get('/api/categories')
