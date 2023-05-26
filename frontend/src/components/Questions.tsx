@@ -1,16 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
-type Props = {
-    question: string;
-    answers: string[];
-    questionNumber: number;
-    totalQuestions: number;
-}
-const Questions = ({question, answers, questionNumber, totalQuestions}: Props) => {
+import {Question} from "./QuestionType";
+import QuestionCard from "./QuestionCard";
+import axios from "axios";
 
+
+const Questions = () => {
+
+    const [questionsUnsortedList, setQuestionsUnsortedList] = useState<Question[]>([])
+    useEffect(() => {
+    axios.get('/api/questions')
+        .then(response => response.data)
+        .then(data => {
+            setQuestionsUnsortedList(data);
+            console.log(data);
+        })
+        .catch(error => console.log(error));
+    }, []);
 
     return (
-        <div></div>
+        <div>
+            {questionsUnsortedList.map((currentQuestion:Question) => <QuestionCard description={currentQuestion.description} answers={currentQuestion.answers} />)}
+        </div>
     );
 }
 

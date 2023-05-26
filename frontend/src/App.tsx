@@ -21,6 +21,7 @@ function App() {
 
     return (
         <div>
+            <title> Quizmaster 2000</title>
             <div className={"App"}>
                 <header><h1>Q U I Z M A S T E R 2000</h1></header>
             </div>
@@ -28,7 +29,9 @@ function App() {
                 <Route path={"/"} element={<QuizForm difficultyLevels={difficultyLevels}
                                                          categories={categories.map(currentCategory => currentCategory.name)}
                                                          questionCount={10}/>}></Route>
+                <Route path={"/questions"} element={<Questions />}></Route>
             </Routes>
+
         </div>
 
     );

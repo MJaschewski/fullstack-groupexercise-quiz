@@ -1,6 +1,7 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import axios from "axios";
 import './QuizForm.css'
+import {useNavigate} from "react-router-dom";
 
 type Props = {
     questionCount: number;
@@ -9,11 +10,16 @@ type Props = {
 };
 
 const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
+
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         questions: '',
         category: '',
         difficulty: '',
     });
+
+
 
     const handleQuestionChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
@@ -31,10 +37,13 @@ const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
             .then((response) => {
                 console.log(response.data);
             })
+            .then(()=>navigate("/questions"))
             .catch((error) => {
                 console.error(error);
             });
     };
+
+
 
     return (
         <div>
