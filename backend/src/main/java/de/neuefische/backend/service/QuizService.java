@@ -45,7 +45,7 @@ public class QuizService {
         }
 
         triviaApiResponse = Objects.requireNonNull(webClient.get()
-                        .uri("/api.php?amount=" + numQuestions + "&category=" + categoryId + "&difficulty=" + difficulty + "&type=multiple&encode=base64")
+                        .uri("/api.php?amount=" + numQuestions + "&category=" + categoryId + "&difficulty=" + difficulty + "&type=multiple")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
                         .toEntity(TriviaApiResponse.class)
