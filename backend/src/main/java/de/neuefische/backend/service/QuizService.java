@@ -4,26 +4,32 @@ import de.neuefische.backend.model.AnswerDTO;
 import de.neuefische.backend.model.CategoryList;
 import de.neuefische.backend.model.QuestionUnsorted;
 import de.neuefische.backend.model.TriviaApiResponse;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Data
 public class QuizService {
     private CategoryList categories;
     private TriviaApiResponse triviaApiResponse;
     private List<QuestionUnsorted> questionUnsortedList;
     private int correctAnswers = 0;
     private int numOfQuestions = 0;
+    private ShuffleService shuffleService;
 
     WebClient webClient = WebClient.create("https://opentdb.com");
+
+    public QuizService(ShuffleService shuffleService) {
+        this.shuffleService = shuffleService;
+    }
 
     public CategoryList getCategories() {
         this.categories = Objects.requireNonNull(webClient.get()
@@ -63,7 +69,6 @@ public class QuizService {
     }
 
     public List<QuestionUnsorted> getQuestionUnsortedList() {
-        ShuffleService shuffleService = new ShuffleService();
         List<QuestionUnsorted> newQuestionUnsortedList = new ArrayList<>();
         for (int i = 0; i < triviaApiResponse.getResults().size(); i++) {
             QuestionUnsorted nextQuestion = new QuestionUnsorted();
@@ -74,7 +79,7 @@ public class QuizService {
             for (int j = 0; j < 3; j++) {
                 unsortedAnswers.add(triviaApiResponse.getResults().get(i).getIncorrect_answers().get(j));
             }
-            unsortedAnswers = shuffleService.shuffleList(unsortedAnswers);
+            shuffleService.shuffleList(unsortedAnswers);
             nextQuestion.setAnswers(unsortedAnswers);
 
             newQuestionUnsortedList.add(nextQuestion);
