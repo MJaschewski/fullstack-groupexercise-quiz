@@ -2,26 +2,34 @@ package de.neuefische.backend.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.neuefische.backend.model.CategoryList;
-import de.neuefische.backend.model.QuestionApi;
-import de.neuefische.backend.model.QuestionUnsorted;
-import de.neuefische.backend.model.TriviaApiResponse;
-import org.junit.Assert;
+import de.neuefische.backend.model.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import org.springframework.test.web.reactive.server.WebTestClient;
+import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
+import static org.springframework.test.web.reactive.server.WebTestClient.RequestBodySpec;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 class QuizServiceTest {
 
 
     ShuffleService mockShuffleService = mock(ShuffleService.class);
     QuizService quizService = new QuizService(mockShuffleService);
+
+    @Autowired
+    WebTestClient webTestClient;
 
 
     @Test
@@ -138,6 +146,37 @@ class QuizServiceTest {
         //Then
         assertEquals(expected,actual);
 
+    }
+
+    @Test
+    @DirtiesContext
+    void setTriviaApiResponse_returnTrueIfApiResponseIsSet() throws JsonProcessingException {
+        CategoryObject categoryObject = new CategoryObject(1,"General Knowledge");
+        List<CategoryObject> categoryObjectList = new ArrayList<>();
+        categoryObjectList.add(categoryObject);
+
+        TriviaApiResponse triviaApiResponse = new TriviaApiResponse();
+        triviaApiResponse.setResults(new ArrayList<>());
+        triviaApiResponse.getResults().add(new QuestionApi("Entertainment: Video Games","multiple","easy","Which of these is NOT a game under the Worms series?","Worms: Ultimate Mayhem", Arrays.asList("Worms: Reloaded","Worms: Revolution","Worms: Battle Islands")));
+
+        this.webTestClient = WebTestClient.bindToServer().baseUrl("https://opentdb.com").build();
+        webTestClient.get()
+                .uri("/api_category.php")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(CategoryList.class)
+                .consumeWith(response -> response.getResponseBody().equals(categoryObjectList));
+
+        webTestClient.get()
+                .uri("/api.php?amount=1&category=1&difficulty=easy&type=multiple")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(TriviaApiResponse.class)
+                .consumeWith(response -> response.getResponseBody().equals(triviaApiResponse));
+
+        boolean result = quizService.setTriviaApiResponse("easy","1","1");
     }
 
     @Test
