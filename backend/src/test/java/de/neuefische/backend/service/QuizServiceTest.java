@@ -8,6 +8,7 @@ import de.neuefische.backend.model.QuestionUnsorted;
 import de.neuefische.backend.model.TriviaApiResponse;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +141,7 @@ class QuizServiceTest {
     }
 
     @Test
+    @DirtiesContext
     void getQuestionsUnsortedList_returnListOfQuestionsWithUnsortedAnswers() throws JsonProcessingException {
         //Given
         String apiResponse = """
