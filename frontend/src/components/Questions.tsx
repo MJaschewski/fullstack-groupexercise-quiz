@@ -14,17 +14,25 @@ const Questions = () => {
     const [questionsUnsortedList, setQuestionsUnsortedList] = useState<Question[]>([])
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [userAnswers, setUsersAnswer] = useState<UserAnswer[]>([])
+    const [submitResponse, setSubmitResponse] = useState<any>(null);
+    const [submitted, setSubmitted] = useState(false);
+
     const handleNext =() => {
         setCurrentIndex((prevIndex) => prevIndex + 1)
     }
 
 
     const handleClickSubmit = () => {
-        const answerDTO: AnswerDTO = {answerObjectList: userAnswers}
+        const answerDTO: AnswerDTO = { answerObjectList: userAnswers };
         axios.post('/api/questions', answerDTO)
-            .then(response => console.log(response))
+            .then(response => {
+                setSubmitResponse(response.data);
+                setSubmitted(true);
+            })
             .catch(error => console.log(error));
-    }
+    };
+
+
 
     function setSingleAnswer(submittedAnswer:UserAnswer){
         let included = false;
@@ -63,14 +71,19 @@ const Questions = () => {
                     key={"questionCard_" + currentQuestion.description}
                     setSingleAnswer={setSingleAnswer}
                     description={currentQuestion.description}
-                    answers={currentQuestion.answers}/>
+                    answers={currentQuestion.answers}
+                />
             )}
             {isLastQuestion ? (
                 <button onClick={handleClickSubmit}>Submit</button>
             ) : (
                 <button onClick={handleNext}>Next</button>
             )}
+            {submitResponse && (
+                <p>Response: {JSON.stringify(submitResponse)}</p>
+            )}
         </div>
+
     );
 }
 
