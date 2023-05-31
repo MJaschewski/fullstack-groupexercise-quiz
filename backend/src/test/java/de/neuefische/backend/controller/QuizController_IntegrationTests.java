@@ -252,8 +252,7 @@ class QuizController_IntegrationTests {
     }
 
     @Test
-    void postMapping_postHome_return_200Ok_returns_correctAmountOfQuestions() throws Exception {
-
+    void postMapping_postQuizSession_return_200Ok_returns_true() throws Exception {
         //When & Then
         mockMvc.perform(MockMvcRequestBuilders.post("/api/home")
                         .contentType(APPLICATION_JSON)
@@ -264,16 +263,35 @@ class QuizController_IntegrationTests {
                                         ,"difficulty":"easy"
                                     }
                                 """))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("true"));
+    }
+
+    @Test
+    @DirtiesContext
+    void getMapping_getQuestions_returns_200Ok_returns_correctAmountOfQuestions() throws Exception {
+        //When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/home")
+                        .contentType(APPLICATION_JSON)
+                        .content("""
+                                   {
+                                       "questions":"3"
+                                        ,"category":"General Knowledge"
+                                        ,"difficulty":"easy"
+                                    }
+                                """))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("true"));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/questions"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()").value(3));
-
     }
 
     @Test
     @DirtiesContext
-    void postMapping_postHome_return_200Ok_return_correctCategoryQuestions() throws Exception {
-
+    void getMapping_getQuestions_returns_200Ok_returns_QuestionsWithContent() throws Exception {
         //When & Then
         mockMvc.perform(MockMvcRequestBuilders.post("/api/home")
                         .contentType(APPLICATION_JSON)
@@ -285,28 +303,12 @@ class QuizController_IntegrationTests {
                                     }
                                 """))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].category").value("General Knowledge"));
+                .andExpect(MockMvcResultMatchers.content().string("true"));
 
-    }
-
-    @Test
-    @DirtiesContext
-    void postMapping_postHome_return_200Ok_return_correctDifficultyQuestions() throws Exception {
-
-        //When & Then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/home")
-                        .contentType(APPLICATION_JSON)
-                        .content("""
-                                   {
-                                       "questions":"3"
-                                        ,"category":"General Knowledge"
-                                        ,"difficulty":"easy"
-                                    }
-                                """))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/questions"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].difficulty").value("easy"));
-
+                .andExpect(jsonPath("$[0].description").isNotEmpty())
+                .andExpect(jsonPath("$[0].answers[0]").isNotEmpty());
     }
 }
