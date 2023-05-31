@@ -23,13 +23,9 @@ public class QuizService {
     private List<QuestionUnsorted> questionUnsortedList;
     private int correctAnswers = 0;
     private int numOfQuestions = 0;
-    private ShuffleService shuffleService;
+    private final ShuffleService shuffleService;
 
     WebClient webClient = WebClient.create("https://opentdb.com");
-
-    public QuizService(ShuffleService shuffleService) {
-        this.shuffleService = shuffleService;
-    }
 
     public CategoryList getCategories() {
         this.categories = Objects.requireNonNull(webClient.get()
@@ -79,7 +75,7 @@ public class QuizService {
             for (int j = 0; j < 3; j++) {
                 unsortedAnswers.add(triviaApiResponse.getResults().get(i).getIncorrect_answers().get(j));
             }
-            shuffleService.shuffleList(unsortedAnswers);
+            unsortedAnswers = shuffleService.shuffleList(unsortedAnswers);
             nextQuestion.setAnswers(unsortedAnswers);
 
             newQuestionUnsortedList.add(nextQuestion);
