@@ -5,6 +5,9 @@ import QuestionCard from "./QuestionCard";
 import axios from "axios";
 import {UserAnswer} from "./UserAnswerType";
 
+type AnswerDTO = {
+    answerObjectList: UserAnswer[]
+}
 
 const Questions = () => {
 
@@ -14,8 +17,11 @@ const Questions = () => {
     const handleNext =() => {
         setCurrentIndex((prevIndex) => prevIndex + 1)
     }
+
+
     const handleClickSubmit = () => {
-        axios.post('/api/questions', userAnswers)
+        const answerDTO: AnswerDTO = {answerObjectList: userAnswers}
+        axios.post('/api/questions', answerDTO)
             .then(response => console.log(response))
             .catch(error => console.log(error));
     }
