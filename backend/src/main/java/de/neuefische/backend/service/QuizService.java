@@ -83,14 +83,14 @@ public class QuizService {
     }
 
     public String postAnswers(AnswerDTO answerDTO) {
+        correctAnswers = 0;
         String result = "Score: ";
         int numOfAnswers = answerDTO.getAnswerObjectList().size();
         for (int i = 0; i < numOfAnswers; i++) {
             for (int j = 0; j < numOfQuestions; j++) {
-                if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getDescription(), triviaApiResponse.getResults().get(j).getQuestion())) {
-                    if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getAnswer(), triviaApiResponse.getResults().get(j).getCorrect_answer())) {
-                        correctAnswers++;
-                    }
+                if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getDescription(), triviaApiResponse.getResults().get(j).getQuestion())
+                        && Objects.equals(answerDTO.getAnswerObjectList().get(i).getAnswer(), triviaApiResponse.getResults().get(j).getCorrect_answer())) {
+                    correctAnswers++;
                 }
             }
         }
