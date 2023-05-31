@@ -1,6 +1,5 @@
 import React from 'react';
 import he from 'he';
-import {Question} from "./QuestionType";
 import {UserAnswer} from "./UserAnswerType";
 
 type Props = {
@@ -19,7 +18,8 @@ function QuestionCard(props: Props) {
         <div>
             <h3>{he.decode(props.description)}</h3>
             {props.answers.map(currentAnswer => {
-                return <p key={"index_" + currentAnswer}>{he.decode(currentAnswer).toString()}</p>
+                return <button key={"index_" + currentAnswer}
+                               onClick={() => handleButtonClick(currentAnswer)}>{he.decode(currentAnswer).toString()}</button>
             })}
         </div>
     );
