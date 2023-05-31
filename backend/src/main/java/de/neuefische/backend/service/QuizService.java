@@ -63,6 +63,7 @@ public class QuizService {
     }
 
     public List<QuestionUnsorted> getQuestionUnsortedList() {
+        ShuffleService shuffleService = new ShuffleService();
         List<QuestionUnsorted> newQuestionUnsortedList = new ArrayList<>();
         for (int i = 0; i < triviaApiResponse.getResults().size(); i++) {
             QuestionUnsorted nextQuestion = new QuestionUnsorted();
@@ -73,7 +74,7 @@ public class QuizService {
             for (int j = 0; j < 3; j++) {
                 unsortedAnswers.add(triviaApiResponse.getResults().get(i).getIncorrect_answers().get(j));
             }
-            Collections.shuffle(unsortedAnswers);
+            unsortedAnswers = shuffleService.shuffleList(unsortedAnswers);
             nextQuestion.setAnswers(unsortedAnswers);
 
             newQuestionUnsortedList.add(nextQuestion);

@@ -3,12 +3,21 @@ package de.neuefische.backend.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.backend.model.CategoryList;
+import de.neuefische.backend.model.QuestionApi;
+import de.neuefische.backend.model.QuestionUnsorted;
+import de.neuefische.backend.model.TriviaApiResponse;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class QuizServiceTest {
     QuizService quizService = new QuizService();
+
+    QuizService mockQuizService = mock(QuizService.class);
 
     @Test
     void when_getCategories_return_categoryList() throws JsonProcessingException {
@@ -125,5 +134,47 @@ class QuizServiceTest {
         assertEquals(expected,actual);
 
     }
+
+    @Test
+    void getQuestionsUnsortedList_returnListOfQuestionsWithUnsortedAnswers() throws JsonProcessingException {
+        //Given
+        String apiResponse = """
+                {
+                    "response_code": 0,
+                    "results": [
+                        {
+                            "category": "Entertainment: Video Games",
+                            "type": "multiple",
+                            "difficulty": "easy",
+                            "question": "Which of these is NOT a game under the Worms series?",
+                            "correct_answer": "Worms: Ultimate Mayhem",
+                            "incorrect_answers": [
+                                "Worms: Reloaded",
+                                "Worms: Revolution",
+                                "Worms: Battle Islands"
+                            ]
+                        },
+                        {
+                            "category": "Entertainment: Video Games",
+                            "type": "multiple",
+                            "difficulty": "easy",
+                            "question": "Which of these is NOT a game under the Worms series?",
+                            "correct_answer": "Worms: Ultimate Mayhem",
+                            "incorrect_answers": [
+                                "Worms: Reloaded",
+                                "Worms: Revolution",
+                                "Worms: Battle Islands"
+                            ]
+                        }
+                    ]
+                }
+                """;
+        ObjectMapper objectMapper = new ObjectMapper();
+        TriviaApiResponse triviaApiResponse = objectMapper.readValue(apiResponse, TriviaApiResponse.class);
+
+        //When
+    }
+
+
 
 }
