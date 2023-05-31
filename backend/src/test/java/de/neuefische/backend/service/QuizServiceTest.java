@@ -10,10 +10,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.test.web.reactive.server.WebTestClient;
+
+import static org.springframework.http.HttpHeaders.ACCEPT;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import static org.springframework.test.web.reactive.server.WebTestClient.RequestBodySpec;
 import static org.junit.jupiter.api.Assertions.*;
@@ -163,6 +168,7 @@ class QuizServiceTest {
         webTestClient.get()
                 .uri("/api_category.php")
                 .accept(MediaType.APPLICATION_JSON)
+                .header(ACCEPT, APPLICATION_JSON_VALUE)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(CategoryList.class)
@@ -177,6 +183,7 @@ class QuizServiceTest {
                 .consumeWith(response -> response.getResponseBody().equals(triviaApiResponse));
 
         boolean result = quizService.setTriviaApiResponse("easy","1","1");
+        assertTrue(result);
     }
 
     @Test
