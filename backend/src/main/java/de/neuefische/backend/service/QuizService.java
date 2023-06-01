@@ -21,6 +21,7 @@ public class QuizService {
     private int correctAnswers = 0;
     private int numOfQuestions = 0;
     private final ShuffleService shuffleService;
+    private List<EvaluationQuestion> evaluationList = new ArrayList<>();
 
     WebClient webClient = WebClient.create("https://opentdb.com");
 
@@ -91,13 +92,14 @@ public class QuizService {
                         && Objects.equals(answerDTO.getAnswerObjectList().get(i).getAnswer(), triviaApiResponse.getResults().get(j).getCorrect_answer())) {
                     correctAnswers++;
                 }
+                EvaluationQuestion newEvaluation = new EvaluationQuestion();
             }
         }
         return result + " " + correctAnswers + "/" + numOfQuestions;
     }
 
-    public List<EvaluationDTO> getEvaluation() {
-        List<EvaluationDTO> evaluationList = new ArrayList<>();
-        return evaluationList;
+    public EvaluationDTO getEvaluation() {
+
+        return new EvaluationDTO();
     }
 }

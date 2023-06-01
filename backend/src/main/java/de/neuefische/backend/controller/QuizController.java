@@ -35,7 +35,7 @@ public class QuizController {
     }
 
     @GetMapping("/evaluation")
-    public List<EvaluationDTO> getEvaluation() {
+    public EvaluationDTO getEvaluation() {
         return service.getEvaluation();
     }
 
