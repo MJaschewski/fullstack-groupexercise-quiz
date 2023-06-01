@@ -3,7 +3,6 @@ package de.neuefische.backend.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.backend.model.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,8 +17,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
-import static org.springframework.test.web.reactive.server.WebTestClient.RequestBodySpec;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -186,6 +182,8 @@ class QuizServiceTest {
         assertTrue(result);
     }
 
+
+
     @Test
     @DirtiesContext
     void getQuestionsUnsortedList_returnListOfQuestionsWithUnsortedAnswers() throws JsonProcessingException {
@@ -229,6 +227,42 @@ class QuizServiceTest {
 
     }
 
+    @Test
+    @DirtiesContext
+    void postAnswers_returnResult() {
+        //Given
+        AnswerDTO answerDTO = new AnswerDTO();
+        TriviaApiResponse triviaApiResponse = new TriviaApiResponse();
+        List<QuestionUnsorted> results = new ArrayList<>();
 
+        QuestionApi questionApi1 = new QuestionApi();
+        questionApi1.setQuestion("What is the capital of France");
+        questionApi1.setCorrect_answer("Paris");
+        questionApi1.setIncorrect_answers(List.of("London","Berlin","Madrid"));
 
+        QuestionApi questionApi2 = new QuestionApi();
+        questionApi2.setQuestion("What is the largest planet in the solar system?");
+        questionApi2.setCorrect_answer("Jupiter");
+        questionApi2.setIncorrect_answers(List.of("Saturn","Earth","Mars"));
+
+        AnswerObject answerObject1 = new AnswerObject();
+        answerObject1.setDescription("What is the capital of France");
+        answerObject1.setAnswer("Paris");
+
+        AnswerObject answerObject2 = new AnswerObject();
+        answerObject2.setDescription("What is the largest planet in the solar system?");
+        answerObject2.setAnswer("Mars");
+
+        triviaApiResponse.setResults(List.of(questionApi1,questionApi2));
+        quizService.setTriviaApiResponse(triviaApiResponse);
+        quizService.setNumOfQuestions(List.of(questionApi1,questionApi2).size());
+
+        answerDTO.setAnswerObjectList(List.of(answerObject1,answerObject2));
+
+        String expected = "Score: 1/2";
+        //When
+        String actual = quizService.postAnswers(answerDTO);
+        //Then
+        assertEquals(expected,actual);
+    }
 }

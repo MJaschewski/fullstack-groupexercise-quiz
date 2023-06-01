@@ -86,7 +86,7 @@ public class QuizService {
 
     public String postAnswers(AnswerDTO answerDTO) {
         correctAnswers = 0;
-        String result = "Score: ";
+        String result = "Score:";
         int numOfAnswers = answerDTO.getAnswerObjectList().size();
         for (int i = 0; i < numOfAnswers; i++) {
             for (int j = 0; j < numOfQuestions; j++) {
