@@ -33,10 +33,6 @@ const Questions = () => {
     };
 
     const handleRestart = () => {
-        setCurrentIndex(0);
-        setUsersAnswer([]);
-        setSubmitResponse(null);
-        setShowScore(false);
         navigate("/");
     }
 
