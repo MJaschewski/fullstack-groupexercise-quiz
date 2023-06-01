@@ -1,4 +1,4 @@
-export type Evaluation = {
+export type EvaluationComponment = {
     description: string
     givenAnswer: string
     correctAnswer: string
