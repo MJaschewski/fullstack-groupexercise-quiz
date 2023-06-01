@@ -12,7 +12,7 @@ type Props = {
 const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
 
     const navigate = useNavigate();
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState({
         questions: '',
         category: '',
@@ -33,10 +33,12 @@ const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
         axios.post('/api/home', formData)
             .then((response) => {
                 console.log(response.data);
             })
+            .then(() => setIsLoading(false))
             .then(()=>navigate("/questions"))
             .catch((error) => {
                 console.error(error);
@@ -104,9 +106,17 @@ const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
                         ))}
                     </label>
                     <br/>
-                    {(formData.category !== '' && formData.difficulty !== '' && formData.questions !== '')
-                        ? <button type="submit">Submit Form</button>
-                        : <></>}
+                    {formData.category !== '' && formData.difficulty !== '' && formData.questions !== '' ? (
+                        isLoading ? (
+                            <button type="submit" disabled>
+                                Loading...
+                            </button>
+                        ) : (
+                            <button type="submit">Submit Form</button>
+                        )
+                    ) : (
+                        <></>
+                    )}
                 </form>
             </div>
         </div>
