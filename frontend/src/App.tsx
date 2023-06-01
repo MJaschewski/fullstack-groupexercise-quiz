@@ -5,6 +5,7 @@ import {CategoryType} from "./components/CategoryType";
 import axios from "axios";
 import {Route, Routes} from "react-router-dom";
 import Questions from "./components/Questions";
+import Evaluation from "./components/Evaluation";
 
 function App() {
     const difficultyLevels = ['easy', 'medium', 'hard'];
@@ -30,6 +31,7 @@ function App() {
                                                          categories={categories.map(currentCategory => currentCategory.name)}
                                                          questionCount={10}/>}></Route>
                 <Route path={"/questions"} element={<Questions />}></Route>
+                <Route path={"/evaluation"} element={<Evaluation/>}></Route>
             </Routes>
 
         </div>
