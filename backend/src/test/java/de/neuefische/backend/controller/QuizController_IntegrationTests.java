@@ -21,6 +21,7 @@ import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -371,6 +372,79 @@ class QuizController_IntegrationTests {
                                 """.formatted(description1, description2, description3)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Score: 0/3"));
+    }
+
+
+    @Test
+    @DirtiesContext
+    void getMapping_getEvaluation_return_200Ok_return_EvaluationDTOWithCorrectValues_WrongAnswers() throws Exception {
+        //Given
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/home")
+                        .contentType(APPLICATION_JSON)
+                        .content("""
+                                   {
+                                       "questions":"3"
+                                        ,"category":"General Knowledge"
+                                        ,"difficulty":"easy"
+                                    }
+                                """))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("true"));
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/questions"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].description").isNotEmpty())
+                .andExpect(jsonPath("$[0].answers[0]").isNotEmpty())
+                .andReturn();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<QuestionUnsorted> questions = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<QuestionUnsorted>>() {
+        });
+        String description1 = questions.get(0).getDescription();
+        String description2 = questions.get(1).getDescription();
+        String description3 = questions.get(2).getDescription();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/questions")
+                        .contentType(APPLICATION_JSON)
+                        .content("""
+                                   {
+                                       "answerObjectList":[
+                                           {
+                                               "description":"%s"
+                                               ,"answer":"falseAnswer"
+                                           },
+                                           {
+                                               "description":"%s"
+                                               ,"answer":"falseAnswer"
+                                           },
+                                           {
+                                               "description":"%s"
+                                               ,"answer":"falseAnswer"
+                                           }
+                                       ]
+                                    }
+                                """.formatted(description1, description2, description3)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Score: 0/3"));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/evaluation"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.score").value(0))
+                .andExpect(jsonPath("$.evaluationQuestionList[0].description").value(description1))
+                .andExpect(jsonPath("$.evaluationQuestionList[0].difficulty").value("easy"))
+                .andExpect(jsonPath("$.evaluationQuestionList[0].correctAnswer").isNotEmpty())
+                .andExpect(jsonPath("$.evaluationQuestionList[0].givenAnswer").value("falseAnswer"))
+                .andExpect(jsonPath("$.evaluationQuestionList[1].description").value(description2))
+                .andExpect(jsonPath("$.evaluationQuestionList[1].difficulty").value("easy"))
+                .andExpect(jsonPath("$.evaluationQuestionList[1].correctAnswer").isNotEmpty())
+                .andExpect(jsonPath("$.evaluationQuestionList[1].givenAnswer").value("falseAnswer"))
+                .andExpect(jsonPath("$.evaluationQuestionList[2].description").value(description3))
+                .andExpect(jsonPath("$.evaluationQuestionList[2].difficulty").value("easy"))
+                .andExpect(jsonPath("$.evaluationQuestionList[2].correctAnswer").isNotEmpty())
+                .andExpect(jsonPath("$.evaluationQuestionList[2].givenAnswer").value("falseAnswer"));
+
     }
 
 }
