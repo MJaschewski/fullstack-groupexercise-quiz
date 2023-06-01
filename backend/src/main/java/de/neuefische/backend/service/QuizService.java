@@ -109,23 +109,20 @@ public class QuizService {
         int score = 0;
         int intDifficulty = 1;
         String difficulty;
-        if (evaluationList.equals(List.of())) {
-            return new EvaluationDTO(score, List.of());
-        } else {
-            for (EvaluationQuestion evaluationQuestion : evaluationList) {
-                if (evaluationQuestion.getGivenAnswer().equals(evaluationQuestion.getCorrectAnswer())) {
-                    difficulty = evaluationQuestion.getDifficulty();
-                    if (difficulty.equals("medium")) {
-                        intDifficulty = 2;
-                    } else if (difficulty.equals("hard")) {
-                        intDifficulty = 3;
-                    } else {
-                        intDifficulty = 1;
-                    }
-                    score = score + intDifficulty;
+        for (EvaluationQuestion evaluationQuestion : evaluationList) {
+            if (evaluationQuestion.getGivenAnswer().equals(evaluationQuestion.getCorrectAnswer())) {
+                difficulty = evaluationQuestion.getDifficulty();
+                if (difficulty.equals("medium")) {
+                    intDifficulty = 2;
+                } else if (difficulty.equals("hard")) {
+                    intDifficulty = 3;
+                } else {
+                    intDifficulty = 1;
                 }
+                score = score + intDifficulty;
             }
-            return new EvaluationDTO(score, evaluationList);
         }
+        return new EvaluationDTO(score, evaluationList);
     }
+
 }
