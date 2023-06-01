@@ -10,6 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.Duration;
+
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -137,7 +139,7 @@ class QuizController_IntegrationTests {
 
     @Test
     void shouldReturnAllCategoriesFromApi_Status200() {
-        this.webTestClient = WebTestClient.bindToServer().baseUrl("https://opentdb.com").build();
+        this.webTestClient = WebTestClient.bindToServer().responseTimeout(Duration.ofSeconds(15)).baseUrl("https://opentdb.com").build();
         webTestClient
                 .get()
                 .uri("/api_category.php")
