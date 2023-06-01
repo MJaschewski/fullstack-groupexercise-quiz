@@ -21,7 +21,7 @@ public class QuizService {
     private int correctAnswers = 0;
     private int numOfQuestions = 0;
     private final ShuffleService shuffleService;
-    private List<EvaluationQuestion> evaluationList = new ArrayList<>();
+    private List<EvaluationQuestion> evaluationList;
 
     WebClient webClient = WebClient.create("https://opentdb.com");
 
@@ -37,8 +37,6 @@ public class QuizService {
     }
 
     public boolean setTriviaApiResponse(String difficulty, String category, String numQuestions) {
-        questionUnsortedList = List.of();
-        evaluationList = List.of();
         int categoryId = -1;
         if (category != null) {
             getCategories();
@@ -86,12 +84,13 @@ public class QuizService {
 
     public String postAnswers(AnswerDTO answerDTO) {
         correctAnswers = 0;
+        List<EvaluationQuestion> newEvaluationList = new ArrayList<>();
         String result = "Score:";
         int numOfAnswers = answerDTO.getAnswerObjectList().size();
         for (int i = 0; i < numOfAnswers; i++) {
             for (int j = 0; j < numOfQuestions; j++) {
                 if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getDescription(), triviaApiResponse.getResults().get(j).getQuestion())) {
-                    evaluationList.add(new EvaluationQuestion(
+                    newEvaluationList.add(new EvaluationQuestion(
                             triviaApiResponse.getResults().get(j).getQuestion()
                             , triviaApiResponse.getResults().get(j).getDifficulty()
                             , answerDTO.getAnswerObjectList().get(i).getAnswer()
@@ -102,6 +101,7 @@ public class QuizService {
                 }
             }
         }
+        evaluationList = newEvaluationList;
         return result + " " + correctAnswers + "/" + numOfQuestions;
     }
 
