@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -160,7 +161,7 @@ class QuizServiceTest {
         triviaApiResponse.setResults(new ArrayList<>());
         triviaApiResponse.getResults().add(new QuestionApi("Entertainment: Video Games","multiple","easy","Which of these is NOT a game under the Worms series?","Worms: Ultimate Mayhem", Arrays.asList("Worms: Reloaded","Worms: Revolution","Worms: Battle Islands")));
 
-        this.webTestClient = WebTestClient.bindToServer().baseUrl("https://opentdb.com").build();
+        this.webTestClient = WebTestClient.bindToServer().responseTimeout(Duration.ofSeconds(15)).baseUrl("https://opentdb.com").build();
         webTestClient.get()
                 .uri("/api_category.php")
                 .accept(MediaType.APPLICATION_JSON)
