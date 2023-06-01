@@ -6,12 +6,14 @@ import { EvaluationComponment } from "./EvaluationType";
 
 const Evaluation = () => {
     const [evaluationList, setEvaluationList] = useState<EvaluationComponment[]>([]);
+    const [totalScore, setTotalScore] = useState<number>(0);
 
     useEffect (() => {
         axios.get("/api/evaluation")
             .then(response => {
                 const data = response.data;
                 setEvaluationList(data.evaluationQuestionList);
+                setTotalScore(data.score);
             })
             .catch(error => console.log(error));
     }, []);
@@ -28,6 +30,7 @@ const Evaluation = () => {
             {evaluationList.map(evaluation => (
                 <EvaluationCard key={evaluation.description} evaluation={evaluation}/>
             ))}
+            <p>Total Score: {totalScore}</p>
             <button onClick={handleRestart}>Restart</button>
         </div>
     );
