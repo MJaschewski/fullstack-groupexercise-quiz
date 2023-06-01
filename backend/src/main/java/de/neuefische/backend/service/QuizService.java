@@ -1,24 +1,29 @@
 package de.neuefische.backend.service;
 
+import de.neuefische.backend.model.AnswerDTO;
 import de.neuefische.backend.model.CategoryList;
 import de.neuefische.backend.model.QuestionUnsorted;
 import de.neuefische.backend.model.TriviaApiResponse;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Data
 public class QuizService {
     private CategoryList categories;
     private TriviaApiResponse triviaApiResponse;
     private List<QuestionUnsorted> questionUnsortedList;
+    private int correctAnswers = 0;
+    private int numOfQuestions = 0;
+    private final ShuffleService shuffleService;
 
     WebClient webClient = WebClient.create("https://opentdb.com");
 
@@ -52,6 +57,7 @@ public class QuizService {
                         .block())
                 .getBody();
         if (this.triviaApiResponse != null) {
+            numOfQuestions = triviaApiResponse.getResults().size();
             return !this.triviaApiResponse.equals(List.of());
         } else {
             return false;
@@ -59,7 +65,6 @@ public class QuizService {
     }
 
     public List<QuestionUnsorted> getQuestionUnsortedList() {
-
         List<QuestionUnsorted> newQuestionUnsortedList = new ArrayList<>();
         for (int i = 0; i < triviaApiResponse.getResults().size(); i++) {
             QuestionUnsorted nextQuestion = new QuestionUnsorted();
@@ -70,7 +75,7 @@ public class QuizService {
             for (int j = 0; j < 3; j++) {
                 unsortedAnswers.add(triviaApiResponse.getResults().get(i).getIncorrect_answers().get(j));
             }
-            Collections.shuffle(unsortedAnswers);
+            unsortedAnswers = shuffleService.shuffleList(unsortedAnswers);
             nextQuestion.setAnswers(unsortedAnswers);
 
             newQuestionUnsortedList.add(nextQuestion);
@@ -79,4 +84,18 @@ public class QuizService {
         return questionUnsortedList;
     }
 
+    public String postAnswers(AnswerDTO answerDTO) {
+        correctAnswers = 0;
+        String result = "Score:";
+        int numOfAnswers = answerDTO.getAnswerObjectList().size();
+        for (int i = 0; i < numOfAnswers; i++) {
+            for (int j = 0; j < numOfQuestions; j++) {
+                if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getDescription(), triviaApiResponse.getResults().get(j).getQuestion())
+                        && Objects.equals(answerDTO.getAnswerObjectList().get(i).getAnswer(), triviaApiResponse.getResults().get(j).getCorrect_answer())) {
+                    correctAnswers++;
+                }
+            }
+        }
+        return result + " " + correctAnswers + "/" + numOfQuestions;
+    }
 }
