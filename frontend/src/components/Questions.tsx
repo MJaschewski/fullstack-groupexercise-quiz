@@ -22,7 +22,7 @@ const Questions = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
     }
 
-    const handleClickSubmit = () => {
+    const handleClickEvaluation = () => {
         const answerDTO: AnswerDTO = { answerObjectList: userAnswers };
         axios.post('/api/questions', answerDTO)
             .then(response => {
@@ -30,6 +30,7 @@ const Questions = () => {
                 setShowScore(true);
             })
             .catch(error => console.log(error));
+        navigate("/evaluation")
     };
 
     const handleRestart = () => {
@@ -83,7 +84,7 @@ const Questions = () => {
                             <button onClick={handleRestart}>Restart</button>
                         </>
                     ) : (
-                        <button onClick={handleClickSubmit}>Submit</button>
+                        <button onClick={handleClickEvaluation}>Evaluation</button>
                     )}
                 </>
             ) : (
