@@ -37,6 +37,8 @@ public class QuizService {
     }
 
     public boolean setTriviaApiResponse(String difficulty, String category, String numQuestions) {
+        questionUnsortedList = List.of();
+        evaluationList = List.of();
         int categoryId = -1;
         if (category != null) {
             getCategories();
