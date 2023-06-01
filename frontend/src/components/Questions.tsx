@@ -3,6 +3,7 @@ import { Question } from "./QuestionType";
 import QuestionCard from "./QuestionCard";
 import axios from "axios";
 import { UserAnswer } from "./UserAnswerType";
+import { useNavigate } from "react-router-dom";
 
 type AnswerDTO = {
     answerObjectList: UserAnswer[]
@@ -13,6 +14,9 @@ const Questions = () => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [userAnswers, setUsersAnswer] = useState<UserAnswer[]>([]);
     const [submitResponse, setSubmitResponse] = useState<any>(null);
+    const [showScore, setShowScore] = useState<boolean>(false);
+
+    const navigate = useNavigate();
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
@@ -23,9 +27,18 @@ const Questions = () => {
         axios.post('/api/questions', answerDTO)
             .then(response => {
                 setSubmitResponse(response.data);
+                setShowScore(true);
             })
             .catch(error => console.log(error));
     };
+
+    const handleRestart = () => {
+        setCurrentIndex(0);
+        setUsersAnswer([]);
+        setSubmitResponse(null);
+        setShowScore(false);
+        navigate("/");
+    }
 
     function setSingleAnswer(submittedAnswer: UserAnswer) {
         let included = false;
@@ -67,12 +80,18 @@ const Questions = () => {
                 />
             )}
             {isLastQuestion ? (
-                <button onClick={handleClickSubmit}>Submit</button>
+                <>
+                    {showScore ? (
+                        <>
+                            <p>Score: {submitResponse}</p>
+                            <button onClick={handleRestart}>Restart</button>
+                        </>
+                    ) : (
+                        <button onClick={handleClickSubmit}>Submit</button>
+                    )}
+                </>
             ) : (
                 <button onClick={handleNext}>Next</button>
-            )}
-            {submitResponse && (
-                <p>Response: {JSON.stringify(submitResponse)}</p>
             )}
         </div>
     );
