@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EvaluationQuestion {
     private String description;
+    private String difficulty;
     private String givenAnswer;
     private String correctAnswer;
 }

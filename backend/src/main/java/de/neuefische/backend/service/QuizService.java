@@ -88,18 +88,42 @@ public class QuizService {
         int numOfAnswers = answerDTO.getAnswerObjectList().size();
         for (int i = 0; i < numOfAnswers; i++) {
             for (int j = 0; j < numOfQuestions; j++) {
-                if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getDescription(), triviaApiResponse.getResults().get(j).getQuestion())
-                        && Objects.equals(answerDTO.getAnswerObjectList().get(i).getAnswer(), triviaApiResponse.getResults().get(j).getCorrect_answer())) {
-                    correctAnswers++;
+                if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getDescription(), triviaApiResponse.getResults().get(j).getQuestion())) {
+                    evaluationList.add(new EvaluationQuestion(
+                            triviaApiResponse.getResults().get(j).getQuestion()
+                            , triviaApiResponse.getResults().get(j).getDifficulty()
+                            , answerDTO.getAnswerObjectList().get(i).getAnswer()
+                            , triviaApiResponse.getResults().get(j).getCorrect_answer()));
+                    if (Objects.equals(answerDTO.getAnswerObjectList().get(i).getAnswer(), triviaApiResponse.getResults().get(j).getCorrect_answer())) {
+                        correctAnswers++;
+                    }
                 }
-                EvaluationQuestion newEvaluation = new EvaluationQuestion();
             }
         }
         return result + " " + correctAnswers + "/" + numOfQuestions;
     }
 
     public EvaluationDTO getEvaluation() {
-
-        return new EvaluationDTO();
+        int score = 0;
+        int intDifficulty = 1;
+        String difficulty;
+        if (evaluationList.equals(List.of())) {
+            return new EvaluationDTO(score, List.of());
+        } else {
+            for (EvaluationQuestion evaluationQuestion : evaluationList) {
+                if (evaluationQuestion.getGivenAnswer().equals(evaluationQuestion.getCorrectAnswer())) {
+                    difficulty = evaluationQuestion.getDifficulty();
+                    if (difficulty.equals("medium")) {
+                        intDifficulty = 2;
+                    } else if (difficulty.equals("hard")) {
+                        intDifficulty = 3;
+                    } else {
+                        intDifficulty = 1;
+                    }
+                    score = score + intDifficulty;
+                }
+            }
+            return new EvaluationDTO(score, evaluationList);
+        }
     }
 }

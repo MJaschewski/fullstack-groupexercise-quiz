@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EvaluationDTO {
-    private String score;
+    private int score;
     private List<EvaluationQuestion> evaluationQuestionList = new ArrayList<>();
 }
