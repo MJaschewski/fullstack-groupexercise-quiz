@@ -1,5 +1,8 @@
 package de.neuefische.backend.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.neuefische.backend.model.QuestionUnsorted;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -7,10 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -312,6 +317,60 @@ class QuizController_IntegrationTests {
                 .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].description").isNotEmpty())
                 .andExpect(jsonPath("$[0].answers[0]").isNotEmpty());
+    }
+
+    @Test
+    @DirtiesContext
+    void postMapping_postAnswers_return200OK_returnsCorrectScoreForWrongAnswers() throws Exception {
+        //When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/home")
+                        .contentType(APPLICATION_JSON)
+                        .content("""
+                                   {
+                                       "questions":"3"
+                                        ,"category":"General Knowledge"
+                                        ,"difficulty":"easy"
+                                    }
+                                """))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("true"));
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/questions"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].description").isNotEmpty())
+                .andExpect(jsonPath("$[0].answers[0]").isNotEmpty())
+                .andReturn();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<QuestionUnsorted> questions = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<QuestionUnsorted>>() {
+        });
+        String description1 = questions.get(0).getDescription();
+        String description2 = questions.get(1).getDescription();
+        String description3 = questions.get(2).getDescription();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/questions")
+                        .contentType(APPLICATION_JSON)
+                        .content("""
+                                   {
+                                       "answerObjectList":[
+                                           {
+                                               "description":"%s"
+                                               ,"answer":"falseAnswer"
+                                           },
+                                           {
+                                               "description":"%s"
+                                               ,"answer":"falseAnswer"
+                                           },
+                                           {
+                                               "description":"%s"
+                                               ,"answer":"falseAnswer"
+                                           }
+                                       ]
+                                    }
+                                """.formatted(description1, description2, description3)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Score: 0/3"));
     }
 
 }
