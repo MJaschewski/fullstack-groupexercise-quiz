@@ -1,8 +1,8 @@
 import React from 'react';
-import { Evaluation } from "./EvaluationType";
+import { EvaluationComponment } from "./EvaluationType";
 
 type Props = {
-    evaluation: Evaluation;
+    evaluation: EvaluationComponment;
 };
 export default function EvaluationCard(props: Props) {
     const { description } = props.evaluation;
