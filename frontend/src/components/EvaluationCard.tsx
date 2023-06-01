@@ -1,5 +1,6 @@
 import React from 'react';
 import { EvaluationComponment } from "./EvaluationType";
+import he from "he";
 
 type Props = {
     evaluation: EvaluationComponment;
@@ -9,9 +10,9 @@ export default function EvaluationCard(props: Props) {
 
     return (
         <div>
-            <h3>{description}</h3>
-            <p>Correct Answer: {correctAnswer}</p>
-            <p>Given Answer: {givenAnswer}</p>
+            <h3>{he.decode(description)}</h3>
+            <p>Correct Answer: {he.decode(correctAnswer)}</p>
+            <p>Given Answer: {he.decode(givenAnswer)}</p>
         </div>
     )
 }
