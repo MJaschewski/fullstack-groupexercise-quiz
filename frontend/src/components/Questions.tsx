@@ -29,8 +29,8 @@ const Questions = () => {
                 setSubmitResponse(response.data);
                 setShowScore(true);
             })
+            .then(() => navigate("/evaluation"))
             .catch(error => console.log(error));
-        navigate("/evaluation")
     };
 
     const handleRestart = () => {
