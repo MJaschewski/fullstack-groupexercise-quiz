@@ -1,9 +1,6 @@
 package de.neuefische.backend.controller;
 
-import de.neuefische.backend.model.AnswerDTO;
-import de.neuefische.backend.model.CategoryList;
-import de.neuefische.backend.model.QuestionUnsorted;
-import de.neuefische.backend.model.QuizRequest;
+import de.neuefische.backend.model.*;
 import de.neuefische.backend.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +32,11 @@ public class QuizController {
     @PostMapping("/questions")
     public String postAnswers(@RequestBody AnswerDTO answerDTO) {
         return service.postAnswers(answerDTO);
+    }
+
+    @GetMapping("/evaluation")
+    public List<EvaluationDTO> getEvaluation() {
+        return service.getEvaluation();
     }
 
 }

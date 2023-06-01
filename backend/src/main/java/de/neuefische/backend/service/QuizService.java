@@ -1,9 +1,6 @@
 package de.neuefische.backend.service;
 
-import de.neuefische.backend.model.AnswerDTO;
-import de.neuefische.backend.model.CategoryList;
-import de.neuefische.backend.model.QuestionUnsorted;
-import de.neuefische.backend.model.TriviaApiResponse;
+import de.neuefische.backend.model.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -97,5 +94,10 @@ public class QuizService {
             }
         }
         return result + " " + correctAnswers + "/" + numOfQuestions;
+    }
+
+    public List<EvaluationDTO> getEvaluation() {
+        List<EvaluationDTO> evaluationList = new ArrayList<>();
+        return evaluationList;
     }
 }
