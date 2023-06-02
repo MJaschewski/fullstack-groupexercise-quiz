@@ -34,3 +34,7 @@ select[id=category] {
     margin-right: 10px;
 }
 
+.QuizSelection {
+    text-align: left;
+}
+
