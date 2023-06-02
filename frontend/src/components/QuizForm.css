@@ -21,3 +21,16 @@ select[id=category] {
     border-radius: 5px;
 }
 
+.category-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
+
+.category-option {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
