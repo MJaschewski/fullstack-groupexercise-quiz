@@ -21,7 +21,7 @@ public class HighscoreController {
     }
 
     @PostMapping
-    public String addResult(@RequestBody ResultDTO resultDTO) {
+    public Result addResult(@RequestBody ResultDTO resultDTO) {
         return highscoreService.addResult(resultDTO);
     }
 

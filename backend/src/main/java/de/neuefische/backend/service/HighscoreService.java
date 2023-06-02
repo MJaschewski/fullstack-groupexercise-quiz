@@ -20,9 +20,8 @@ public class HighscoreService {
         return highscoreRepo.findAll();
     }
 
-    public String addResult(ResultDTO resultDTO) {
+    public Result addResult(ResultDTO resultDTO) {
         Result highscore = new Result(uuidService.generateUUID(), resultDTO.getPlayerName(), resultDTO.getScore(), resultDTO.getDifficulty(), resultDTO.getCategory(), resultDTO.getNumOfQuestions());
-        highscoreRepo.save(highscore);
-        return Boolean.toString(highscoreRepo.existsById(highscore.getId()));
+        return highscoreRepo.save(highscore);
     }
 }
