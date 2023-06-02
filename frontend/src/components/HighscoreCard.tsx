@@ -1,20 +1,17 @@
 import React from 'react';
-import {Result} from "./Result";
+import { Result } from './Result';
 
-type Props = {
-    score: Result
-    rankedNumber: number
-}
+type HighscoreCardProps = {
+    result: Result;
+};
 
-function HighscoreCard(props:Props) {
-    const {rankedNumber, score} = props;
-
+const HighscoreCard: React.FC<HighscoreCardProps> = ({ result }) => {
     return (
         <div>
-            <h3>{props.score.playerName}</h3>
-            <h4>{props.score.score}</h4>
+            <p>Player Name: {result.playerName}</p>
+            <p>Score: {result.score}</p>
         </div>
     );
-}
+};
 
 export default HighscoreCard;
