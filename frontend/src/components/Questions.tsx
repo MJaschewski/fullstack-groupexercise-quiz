@@ -26,6 +26,7 @@ const Questions = () => {
     const handleClickEvaluation = () => {
         const answerDTO: AnswerDTO = {answerObjectList: userAnswers};
         setIsLoading(true);
+
         axios.post('/api/questions', answerDTO)
             .then(response => {
                 setSubmitResponse(response.data);
@@ -58,6 +59,9 @@ const Questions = () => {
     }
 
     useEffect(() => {
+        setUsersAnswer([])
+        setSubmitResponse(null)
+        setShowScore(false)
         axios.get('/api/questions')
             .then(response => response.data)
             .then(data => {
