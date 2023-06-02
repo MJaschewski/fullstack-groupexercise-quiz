@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import HighscoreCard from './HighscoreCard';
-import {Result} from "./Result";
 import {ResultDTO} from "./ResultDTO";
+import {Result} from "./Result";
 
 const Highscores: React.FC = () => {
     const [highscores, setHighscores] = useState<Result[]>([]);
@@ -12,7 +12,6 @@ const Highscores: React.FC = () => {
         category: '',
         numOfQuestions: 0,
     });
-
 
     useEffect(() => {
         fetchHighscores();
@@ -40,9 +39,7 @@ const Highscores: React.FC = () => {
             });
             const data = await response.json();
             console.log('Highscore added:', data);
-            // Optional: Refresh the highscores list after adding a new highscore
             fetchHighscores();
-            // Clear the form inputs
             setNewHighscore({
                 playerName: '',
                 score: 0,
@@ -63,48 +60,16 @@ const Highscores: React.FC = () => {
         }));
     };
 
+    const sortedHighscores = highscores.sort((a, b) => b.score - a.score);
+
     return (
         <div>
             <h1>Highscores</h1>
-            {highscores.map((result, index) => (
+            {sortedHighscores.map((result, index) => (
                 <HighscoreCard key={index} result={result} />
             ))}
             <form onSubmit={handleFormSubmit}>
-                <input
-                    type="text"
-                    name="playerName"
-                    placeholder="Player Name"
-                    value={newHighscore.playerName}
-                    onChange={handleInputChange}
-                />
-                <input
-                    type="number"
-                    name="score"
-                    placeholder="Score"
-                    value={newHighscore.score}
-                    onChange={handleInputChange}
-                />
-                <input
-                    type="text"
-                    name="difficulty"
-                    placeholder="Difficulty"
-                    value={newHighscore.difficulty}
-                    onChange={handleInputChange}
-                />
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Category"
-                    value={newHighscore.category}
-                    onChange={handleInputChange}
-                />
-                <input
-                    type="number"
-                    name="numOfQuestions"
-                    placeholder="Number of Questions"
-                    value={newHighscore.numOfQuestions}
-                    onChange={handleInputChange}
-                />
+                {/* Form inputs */}
                 <button type="submit">Add Highscore</button>
             </form>
         </div>
