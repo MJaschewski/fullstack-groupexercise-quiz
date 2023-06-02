@@ -1,7 +1,7 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import axios from "axios";
 import './QuizForm.css'
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     questionCount: number;
@@ -9,41 +9,39 @@ type Props = {
     difficultyLevels: React.Key[];
 };
 
-const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
-
+const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
     const navigate = useNavigate();
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState({
         questions: '',
         category: '',
         difficulty: '',
     });
 
-
-
     const handleQuestionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
 
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
-
     };
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
         axios.post('/api/home', formData)
             .then((response) => {
                 console.log(response.data);
             })
-            .then(()=>navigate("/questions"))
+            .then(() => setIsLoading(false))
+            .then(() => navigate("/questions"))
             .catch((error) => {
                 console.error(error);
             });
     };
 
-
+    const isFormValid = formData.category !== '' && formData.difficulty !== '' && formData.questions !== '';
 
     return (
         <div>
@@ -57,7 +55,7 @@ const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
                             name="questions"
                             value={formData.questions}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                const {value} = event.target;
+                                const { value } = event.target;
                                 if (Number(value) > 0 && Number(value) <= 20) {
                                     handleQuestionChange(event);
                                 } else {
@@ -69,8 +67,8 @@ const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
                             }}
                         />
                     </label>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <label>
                         <p>Choose Category:</p>
                         {categories.map((level: React.Key) => (
@@ -103,10 +101,12 @@ const QuizForm = ({questionCount, categories, difficultyLevels}: Props) => {
                             </div>
                         ))}
                     </label>
-                    <br/>
-                    {(formData.category !== '' && formData.difficulty !== '' && formData.questions !== '')
-                        ? <button type="submit">Submit Form</button>
-                        : <></>}
+                    <br />
+                    {isFormValid && (
+                        <button type="submit" disabled={isLoading}>
+                            {isLoading ? "Loading..." : "Submit Form"}
+                        </button>
+                    )}
                 </form>
             </div>
         </div>

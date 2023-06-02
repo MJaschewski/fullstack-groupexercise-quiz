@@ -9,18 +9,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static org.springframework.http.HttpHeaders.ACCEPT;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpHeaders.ACCEPT;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -256,14 +257,34 @@ class QuizServiceTest {
 
         triviaApiResponse.setResults(List.of(questionApi1,questionApi2));
         quizService.setTriviaApiResponse(triviaApiResponse);
-        quizService.setNumOfQuestions(List.of(questionApi1,questionApi2).size());
+        quizService.setNumOfQuestions(List.of(questionApi1, questionApi2).size());
 
-        answerDTO.setAnswerObjectList(List.of(answerObject1,answerObject2));
+        answerDTO.setAnswerObjectList(List.of(answerObject1, answerObject2));
 
         String expected = "Score: 1/2";
         //When
         String actual = quizService.postAnswers(answerDTO);
         //Then
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DirtiesContext
+    void when_getEvaluation_return_CorrectEvaluationDTO() {
+        //Given
+        List<EvaluationQuestion> evaluationQuestionList = new ArrayList<>();
+        EvaluationQuestion testQuestionRight = new EvaluationQuestion("TestQ1", "hard", "right", "right");
+        EvaluationQuestion testQuestionWrong = new EvaluationQuestion("TestQ2", "easy", "wrong", "right");
+        evaluationQuestionList.add(testQuestionRight);
+        evaluationQuestionList.add(testQuestionWrong);
+        quizService.setEvaluationList(evaluationQuestionList);
+
+        EvaluationDTO expected = new EvaluationDTO(3, evaluationQuestionList);
+        //When
+        EvaluationDTO actual = quizService.getEvaluation();
+
+        //Then
+        assertEquals(expected, actual);
+
     }
 }

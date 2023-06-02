@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Question } from "./QuestionType";
+import React, {useEffect, useState} from 'react';
+import {Question} from "./QuestionType";
 import QuestionCard from "./QuestionCard";
 import axios from "axios";
-import { UserAnswer } from "./UserAnswerType";
-import { useNavigate } from "react-router-dom";
+import {UserAnswer} from "./UserAnswerType";
+import {useNavigate} from "react-router-dom";
 
 type AnswerDTO = {
     answerObjectList: UserAnswer[]
@@ -15,6 +15,7 @@ const Questions = () => {
     const [userAnswers, setUsersAnswer] = useState<UserAnswer[]>([]);
     const [submitResponse, setSubmitResponse] = useState<any>(null);
     const [showScore, setShowScore] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -22,13 +23,16 @@ const Questions = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
     }
 
-    const handleClickSubmit = () => {
-        const answerDTO: AnswerDTO = { answerObjectList: userAnswers };
+    const handleClickEvaluation = () => {
+        const answerDTO: AnswerDTO = {answerObjectList: userAnswers};
+        setIsLoading(true);
         axios.post('/api/questions', answerDTO)
             .then(response => {
                 setSubmitResponse(response.data);
                 setShowScore(true);
             })
+            .then(() => setIsLoading(false))
+            .then(() => navigate("/evaluation"))
             .catch(error => console.log(error));
     };
 
@@ -59,7 +63,8 @@ const Questions = () => {
             .then(data => {
                 setQuestionsUnsortedList(data);
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error))
+            .finally(() => setIsLoading(false));
     }, []);
 
     const currentQuestion = questionsUnsortedList[currentIndex];
@@ -67,27 +72,33 @@ const Questions = () => {
 
     return (
         <div>
-            {currentQuestion && (
-                <QuestionCard
-                    key={"questionCard_" + currentQuestion.description}
-                    setSingleAnswer={setSingleAnswer}
-                    description={currentQuestion.description}
-                    answers={currentQuestion.answers}
-                />
-            )}
-            {isLastQuestion ? (
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : (
                 <>
-                    {showScore ? (
+                    {currentQuestion && (
+                        <QuestionCard
+                            key={"questionCard_" + currentQuestion.description}
+                            setSingleAnswer={setSingleAnswer}
+                            description={currentQuestion.description}
+                            answers={currentQuestion.answers}
+                        />
+                    )}
+                    {isLastQuestion ? (
                         <>
-                            <p>Score: {submitResponse}</p>
-                            <button onClick={handleRestart}>Restart</button>
+                            {showScore ? (
+                                <>
+                                    <p>Score: {submitResponse}</p>
+                                    <button onClick={handleRestart}>Restart</button>
+                                </>
+                            ) : (
+                                <button onClick={handleClickEvaluation}>Evaluation</button>
+                            )}
                         </>
                     ) : (
-                        <button onClick={handleClickSubmit}>Submit</button>
+                        <button onClick={handleNext}>Next</button>
                     )}
                 </>
-            ) : (
-                <button onClick={handleNext}>Next</button>
             )}
         </div>
     );
