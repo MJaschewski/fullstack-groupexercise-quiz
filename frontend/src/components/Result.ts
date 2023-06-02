@@ -1,5 +1,7 @@
-export type Result = {
-    id: String;
+import { ResultDTO } from './ResultDTO';
+
+export interface Result {
+    id: string;
     playerName: string;
     score: number;
     difficulty: string;
