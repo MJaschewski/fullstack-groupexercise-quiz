@@ -5,13 +5,13 @@ type HighscoreCardProps = {
     result: Result;
 };
 
-const HighscoreCard: React.FC<HighscoreCardProps> = ({ result }) => {
+function HighscoreCard({ result }: HighscoreCardProps) {
     return (
         <div>
             <p>Player Name: {result.playerName}</p>
             <p>Score: {result.score}</p>
         </div>
     );
-};
+}
 
 export default HighscoreCard;

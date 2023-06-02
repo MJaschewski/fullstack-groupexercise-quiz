@@ -3,7 +3,7 @@ import HighscoreCard from './HighscoreCard';
 import {ResultDTO} from "./ResultDTO";
 import {Result} from "./Result";
 
-const Highscores: React.FC = () => {
+const Highscores = () => {
     const [highscores, setHighscores] = useState<Result[]>([]);
     const [newHighscore, setNewHighscore] = useState<ResultDTO>({
         playerName: '',
@@ -23,7 +23,7 @@ const Highscores: React.FC = () => {
             const data = await response.json();
             setHighscores(data);
         } catch (error) {
-            console.error('Error fetching highscores:', error);
+            console.error(error);
         }
     };
 
@@ -32,9 +32,6 @@ const Highscores: React.FC = () => {
         try {
             const response = await fetch('/api/highscore', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 body: JSON.stringify(newHighscore),
             });
             const data = await response.json();
@@ -48,19 +45,19 @@ const Highscores: React.FC = () => {
                 numOfQuestions: 0,
             });
         } catch (error) {
-            console.error('Error adding highscore:', error);
+            console.error(error);
         }
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+    const sortedHighscores = highscores.sort((a, b) => b.score - a.score);
+
+    const handlePlayerNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
         setNewHighscore((prevHighscore) => ({
             ...prevHighscore,
-            [name]: value,
+            playerName: value,
         }));
     };
-
-    const sortedHighscores = highscores.sort((a, b) => b.score - a.score);
 
     return (
         <div>
@@ -69,7 +66,12 @@ const Highscores: React.FC = () => {
                 <HighscoreCard key={index} result={result} />
             ))}
             <form onSubmit={handleFormSubmit}>
-                {/* Form inputs */}
+                <input
+                    type="text"
+                    placeholder="Player Name"
+                    value={newHighscore.playerName}
+                    onChange={handlePlayerNameChange}
+                />
                 <button type="submit">Add Highscore</button>
             </form>
         </div>
