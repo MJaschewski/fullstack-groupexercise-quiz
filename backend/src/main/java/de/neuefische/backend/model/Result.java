@@ -1,12 +1,14 @@
 package de.neuefische.backend.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Result {
-    private final String id;
-    private final String playerName;
-    private final int score;
+    private String id;
+    private String playerName;
+    private int score;
 }
