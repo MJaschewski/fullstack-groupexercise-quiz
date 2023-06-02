@@ -1,23 +1,28 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.model.Result;
+import de.neuefische.backend.model.ResultDTO;
 import de.neuefische.backend.service.HighscoreService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/highscores")
+@RequestMapping("api/highscore")
+@RequiredArgsConstructor
 public class HighscoreController {
 
-    @Autowired
-    private HighscoreService highscoreService;
+    private final HighscoreService highscoreService;
 
     @GetMapping
-    public List<Highscore> getHighscores() {
-        return highscoreService.getHighscores();
+    public List<Result> getResults() {
+        return highscoreService.getResults();
     }
 
     @PostMapping
-    public void addHighscore(@RequestBody Highscore highscore) {
-        highscoreService.addHighscore(highscore);
+    public String addResult(@RequestBody ResultDTO resultDTO) {
+        return highscoreService.addResult(resultDTO);
     }
+
 }
