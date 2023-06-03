@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HighscoreCard from './HighscoreCard';
 import {ResultDTO} from "./ResultDTO";
 import {Result} from "./Result";
+import {useNavigate} from "react-router-dom";
 
 const Highscores = () => {
     const [highscores, setHighscores] = useState<Result[]>([]);
@@ -12,6 +13,7 @@ const Highscores = () => {
         category: '',
         numOfQuestions: 0,
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchHighscores();
@@ -27,30 +29,7 @@ const Highscores = () => {
         }
     };
 
-    const handleFormSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        try {
-            const response = await fetch('/api/highscore', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newHighscore),
-            });
-            const data = await response.json();
-            console.log('Highscore added:', data);
-            fetchHighscores();
-            setNewHighscore({
-                playerName: '',
-                score: 0,
-                difficulty: '',
-                category: '',
-                numOfQuestions: 0,
-            });
-        } catch (error) {
-            console.error(error);
-        }
-    };
+
 
     const sortedHighscores = highscores.sort((a, b) => b.score - a.score);
 
@@ -62,21 +41,17 @@ const Highscores = () => {
         }));
     };
 
+    function handleBackToQuiz() {
+        navigate("/");
+    }
+
     return (
         <div>
             <h1>Highscores</h1>
             {sortedHighscores.map((result, index) => (
                 <HighscoreCard key={index} result={result} />
             ))}
-            <form onSubmit={handleFormSubmit}>
-                <input
-                    type="text"
-                    placeholder="Player Name"
-                    value={newHighscore.playerName}
-                    onChange={handleSubmitPlayerName}
-                />
-                <button type="submit">Add Highscore</button>
-            </form>
+                <button onClick={handleBackToQuiz}>Back to Quiz</button>
         </div>
     );
 };

@@ -7,8 +7,9 @@ import { EvaluationComponment } from "./EvaluationType";
 const Evaluation = () => {
     const [evaluationList, setEvaluationList] = useState<EvaluationComponment[]>([]);
     const [totalScore, setTotalScore] = useState<number>(0);
+    const [playerName, setPlayerName] = useState<string>("");
 
-    useEffect (() => {
+    useEffect(() => {
         axios.get("/api/evaluation")
             .then(response => {
                 const data = response.data;
@@ -24,13 +25,41 @@ const Evaluation = () => {
         navigate("/");
     }
 
+    const handlePlayerNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPlayerName(event.target.value);
+    }
+
+    const handleAddHighscore = () => {
+        const highscoreData = {
+            playerName: playerName,
+            score: totalScore,
+            difficulty: "",
+            category: "",
+            numOfQuestions: 0
+        };
+
+        axios.post("/api/highscore", highscoreData)
+            .then(response => {
+                console.log("Highscore added:", response.data);
+                navigate("/highscores");
+            })
+            .catch(error => console.error("Error adding highscore:", error));
+    }
+
     return (
         <div>
             <h2>Evaluation</h2>
             {evaluationList.map(evaluation => (
-                <EvaluationCard key={evaluation.description} evaluation={evaluation}/>
+                <EvaluationCard key={evaluation.description} evaluation={evaluation} />
             ))}
             <p>Total Score: {totalScore}</p>
+            <input
+                type="text"
+                placeholder="Enter your name"
+                value={playerName}
+                onChange={handlePlayerNameChange}
+            />
+            <button onClick={handleAddHighscore}>Add to Highscore</button>
             <button onClick={handleRestart}>Restart</button>
         </div>
     );
