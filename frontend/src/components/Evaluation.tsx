@@ -8,6 +8,7 @@ const Evaluation = () => {
     const [evaluationList, setEvaluationList] = useState<EvaluationComponment[]>([]);
     const [totalScore, setTotalScore] = useState<number>(0);
     const [playerName, setPlayerName] = useState<string>("");
+    const [playedCategory, setPlayedCategory] = useState<string>("");
 
     useEffect(() => {
         axios.get("/api/evaluation")
@@ -15,6 +16,7 @@ const Evaluation = () => {
                 const data = response.data;
                 setEvaluationList(data.evaluationQuestionList);
                 setTotalScore(data.score);
+                setPlayedCategory(data.category);
             })
             .catch(error => console.log(error));
     }, []);
@@ -33,7 +35,7 @@ const Evaluation = () => {
         const highscoreData = {
             playerName: playerName,
             score: totalScore,
-            difficulty: "",
+            difficulty: playedCategory,
             category: "",
             numOfQuestions: 0
         };
