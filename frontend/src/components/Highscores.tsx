@@ -32,6 +32,9 @@ const Highscores = () => {
         try {
             const response = await fetch('/api/highscore', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(newHighscore),
             });
             const data = await response.json();
@@ -51,7 +54,7 @@ const Highscores = () => {
 
     const sortedHighscores = highscores.sort((a, b) => b.score - a.score);
 
-    const handlePlayerNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSubmitPlayerName = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setNewHighscore((prevHighscore) => ({
             ...prevHighscore,
@@ -70,7 +73,7 @@ const Highscores = () => {
                     type="text"
                     placeholder="Player Name"
                     value={newHighscore.playerName}
-                    onChange={handlePlayerNameChange}
+                    onChange={handleSubmitPlayerName}
                 />
                 <button type="submit">Add Highscore</button>
             </form>
