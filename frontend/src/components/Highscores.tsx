@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import HighscoreCard from './HighscoreCard';
-import {ResultDTO} from "./ResultDTO";
 import {Result} from "./Result";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
@@ -36,7 +35,7 @@ const Highscores = () => {
         <div>
             <h1>Highscores</h1>
             {sortedHighscores.map((result, index) => (
-                <HighscoreCard key={index} result={result} />
+                <HighscoreCard key={result.id} result={result} />
             ))}
                 <button onClick={handleBackToQuiz}>Back to Quiz</button>
         </div>
