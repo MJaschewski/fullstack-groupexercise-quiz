@@ -4,6 +4,7 @@ import QuestionCard from "./QuestionCard";
 import axios from "axios";
 import {UserAnswer} from "./UserAnswerType";
 import {useNavigate} from "react-router-dom";
+import {CircularProgressbar} from "react-circular-progressbar";
 
 type AnswerDTO = {
     answerObjectList: UserAnswer[]
@@ -16,11 +17,12 @@ const Questions = () => {
     const [submitResponse, setSubmitResponse] = useState<any>(null);
     const [showScore, setShowScore] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
+    const [timer, setTimer] = useState<number>(15);
     const navigate = useNavigate();
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
+        setTimer(15)
     }
 
     const handleClickEvaluation = () => {
@@ -70,12 +72,43 @@ const Questions = () => {
     const currentQuestion = questionsUnsortedList[currentIndex];
     const isLastQuestion = currentIndex === questionsUnsortedList.length - 1;
 
+    useEffect(() => {
+        if (timer === 0 && !isLastQuestion && !showScore) {
+            const noneAnswer: UserAnswer = {
+                description: currentQuestion.description,
+                answer: "none"
+            };
+            setSingleAnswer(noneAnswer);
+            handleNext()
+        }
+        const countdown = setInterval(() => {
+            setTimer((prevTimer) => prevTimer - 1)
+        }, 1000)
+        return () => clearInterval(countdown)
+    }, [timer, isLastQuestion, showScore])
+
+
     return (
         <div>
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
                 <>
+                    <div style={{ marginBottom: '20px' }}>
+                        {!showScore && (
+                            <CircularProgressbar
+                                value={timer}
+                                maxValue={15}
+                                text={`${timer} seconds`}
+                                styles={{
+                                    root: { width: '100px' },
+                                    path: { stroke: `rgba(62, 152, 199, ${1 - timer / 15})` },
+                                    trail: { stroke: '#f2f2f2' },
+                                    text: { fill: '#000', fontSize: '16px' },
+                                }}
+                            />
+                        )}
+                    </div>
                     {currentQuestion && (
                         <QuestionCard
                             key={"questionCard_" + currentQuestion.description}
