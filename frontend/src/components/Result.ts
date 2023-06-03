@@ -1,5 +1,3 @@
-import { ResultDTO } from './ResultDTO';
-
 export interface Result {
     id: string;
     playerName: string;
