@@ -106,12 +106,12 @@ const Questions = () => {
                             <CircularProgressbar
                                 value={timer}
                                 maxValue={15}
-                                text={`${timer} seconds`}
+                                text={timer.toString()}
                                 styles={{
-                                    root: { width: '100px' },
+                                    root: { width: '100px', position: 'relative' },
                                     path: { stroke: `rgba(62, 152, 199, ${1 - timer / 15})` },
-                                    trail: { stroke: '#f2f2f2' },
-                                    text: { fill: '#000', fontSize: '16px' },
+                                    trail: { stroke: '#e3942b' },
+                                    text: { fill: '#ee0808', fontSize: '25px', fontWeight: 'bold', alignContent: 'center'}
                                 }}
                             />
                         )}
