@@ -79,13 +79,20 @@ const Questions = () => {
                 answer: "none"
             };
             setSingleAnswer(noneAnswer);
-            handleNext()
+            handleNext();
+        } else if (timer === 0 && isLastQuestion && !showScore) {
+            const noneAnswer: UserAnswer = {
+                description: currentQuestion.description,
+                answer: "none"
+            };
+            setSingleAnswer(noneAnswer);
+            handleClickEvaluation();
         }
         const countdown = setInterval(() => {
             setTimer((prevTimer) => prevTimer - 1)
-        }, 1000)
-        return () => clearInterval(countdown)
-    }, [timer, isLastQuestion, showScore])
+        }, 1000);
+        return () => clearInterval(countdown);
+    }, [timer, isLastQuestion, showScore]);
 
 
     return (
