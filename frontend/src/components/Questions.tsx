@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {Question} from "./QuestionType";
+import React, { useEffect, useState } from 'react';
+import { Question } from "./QuestionType";
 import QuestionCard from "./QuestionCard";
 import axios from "axios";
-import {UserAnswer} from "./UserAnswerType";
-import {useNavigate} from "react-router-dom";
+import { UserAnswer } from "./UserAnswerType";
+import { useNavigate } from "react-router-dom";
 
 type AnswerDTO = {
     answerObjectList: UserAnswer[]
@@ -16,16 +16,22 @@ const Questions = () => {
     const [submitResponse, setSubmitResponse] = useState<any>(null);
     const [showScore, setShowScore] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isAnswerSelected, setIsAnswerSelected] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
+        setIsAnswerSelected(false);
     }
 
     const handleClickEvaluation = () => {
-        const answerDTO: AnswerDTO = {answerObjectList: userAnswers};
+        const answerDTO: AnswerDTO = { answerObjectList: userAnswers };
         setIsLoading(true);
+
+        setUsersAnswer([])
+        setSubmitResponse(null)
+        setShowScore(false)
 
         axios.post('/api/questions', answerDTO)
             .then(response => {
@@ -56,6 +62,7 @@ const Questions = () => {
             updatedUserAnswers.push(submittedAnswer);
             setUsersAnswer(updatedUserAnswers);
         }
+        setIsAnswerSelected(true);
     }
 
     useEffect(() => {
@@ -96,12 +103,12 @@ const Questions = () => {
                                     <button onClick={handleRestart}>Restart</button>
                                 </>
                             ) : (
-                                <button onClick={handleClickEvaluation}>Evaluation</button>
-                            )}
+                                <button disabled={!isAnswerSelected} onClick={handleClickEvaluation}>Evaluation</button>
+                                )}
                         </>
                     ) : (
-                        <button onClick={handleNext}>Next</button>
-                    )}
+                        <button disabled={!isAnswerSelected} onClick={handleNext}>Next</button>
+                        )}
                 </>
             )}
         </div>
