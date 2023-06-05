@@ -18,10 +18,10 @@ public class ReactRoutingForwarding implements WebMvcConfigurer {
         @Override
         protected Resource getResource(String resourcePath, Resource location) throws IOException {
             var requestedResource = location.createRelative(resourcePath);
+
             if (requestedResource.exists() && requestedResource.isReadable()) {
                 return requestedResource;
             }
-
             return new ClassPathResource(DEFAULT_STARTING_PAGE);
         }
     }

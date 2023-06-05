@@ -12,6 +12,7 @@ function App() {
     const difficultyLevels = ['easy', 'medium', 'hard'];
     const [categories, setCategories] = useState<CategoryType[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true);
+
     useEffect(() => {
         axios.get('/api/categories')
             .then(response => response.data)

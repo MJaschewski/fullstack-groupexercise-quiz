@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import EvaluationCard from "./EvaluationCard";
-import { EvaluationComponment } from "./EvaluationType";
+import {EvaluationComponment} from "./EvaluationType";
 
 const Evaluation = () => {
     const [evaluationList, setEvaluationList] = useState<EvaluationComponment[]>([]);
     const [totalScore, setTotalScore] = useState<number>(0);
     const [playerName, setPlayerName] = useState<string>("");
 
-    useEffect(() => {
+
+    useEffect (() => {
+        setEvaluationList([])
+        setTotalScore(0)
         axios.get("/api/evaluation")
             .then(response => {
                 const data = response.data;
