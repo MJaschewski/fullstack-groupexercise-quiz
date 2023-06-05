@@ -1,6 +1,6 @@
 import React from 'react';
 import he from 'he';
-import {UserAnswer} from "./UserAnswerType";
+import { UserAnswer } from "./UserAnswerType";
 
 type Props = {
     description: string,
@@ -13,17 +13,22 @@ function QuestionCard(props: Props) {
 
     const handleButtonClick = (selectedAnswer: string) => {
         setSelectedAnswer(selectedAnswer);
-        props.setSingleAnswer({description: props.description, answer: selectedAnswer});
+        props.setSingleAnswer({ description: props.description, answer: selectedAnswer });
     }
 
     return (
         <div>
             <h3>{he.decode(props.description)}</h3>
             {props.answers.map(currentAnswer => {
-                return <button key={"index_" + currentAnswer}
-                               onClick={() => handleButtonClick(currentAnswer)}
-                               style={{backgroundColor: selectedAnswer === currentAnswer ? "green" : 'initial'}}>{he.decode(currentAnswer)}
-                </button>
+                return (
+                    <button
+                        key={"index_" + currentAnswer}
+                        onClick={() => handleButtonClick(currentAnswer)}
+                        style={{ backgroundColor: selectedAnswer === currentAnswer ? "green" : 'initial' }}
+                    >
+                        {he.decode(currentAnswer)}
+                    </button>
+                );
             })}
         </div>
     );
