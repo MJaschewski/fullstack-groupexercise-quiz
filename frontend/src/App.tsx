@@ -6,6 +6,7 @@ import axios from "axios";
 import {Route, Routes} from "react-router-dom";
 import Questions from "./components/Questions";
 import Evaluation from "./components/Evaluation";
+import Highscores from "./components/Highscores";
 
 function App() {
     const difficultyLevels = ['easy', 'medium', 'hard'];
@@ -46,6 +47,7 @@ function App() {
                         />
                         <Route path="/questions" element={<Questions />} />
                         <Route path="/evaluation" element={<Evaluation />} />
+                        <Route path="/highscores" element={<Highscores />} />
                     </Routes>
                 )}
             </div>

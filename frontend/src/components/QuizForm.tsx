@@ -71,8 +71,9 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                     <br />
                     <label>
                         <p>Choose Category:</p>
+                        <div className="category-options">
                         {categories.map((level: React.Key) => (
-                            <div key={level}>
+                            <div key={level} className="category-option">
                                 <input
                                     type="radio"
                                     id={level.toString()}
@@ -84,6 +85,7 @@ const QuizForm = ({ questionCount, categories, difficultyLevels }: Props) => {
                                 <label htmlFor={level.toString()}>{level.toString()}</label>
                             </div>
                         ))}
+                        </div>
                     </label>
                     <label>
                         <p>Choose difficulty:</p>
