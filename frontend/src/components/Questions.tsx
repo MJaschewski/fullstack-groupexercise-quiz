@@ -92,7 +92,7 @@ const Questions = () => {
             setTimer((prevTimer) => prevTimer - 1)
         }, 1000);
         return () => clearInterval(countdown);
-    }, [timer, isLastQuestion, showScore]);
+    }, );
 
 
     return (
