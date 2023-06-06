@@ -92,8 +92,8 @@ const Questions = () => {
             setTimer((prevTimer) => prevTimer - 1)
         }, 1000);
         return () => clearInterval(countdown);
-    }, );
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [timer, isLastQuestion, showScore]);
 
     return (
         <div>
