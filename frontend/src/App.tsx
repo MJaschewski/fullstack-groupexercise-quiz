@@ -25,7 +25,7 @@ function App() {
     }, []);
 
     return (
-        <div>
+        <div className="App">
             <title>Quizmaster 2000</title>
             <div className="App">
                 <header>

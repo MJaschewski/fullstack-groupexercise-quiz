@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Question } from "./QuestionType";
+import React, {useEffect, useState} from 'react';
+import {Question} from "./QuestionType";
 import QuestionCard from "./QuestionCard";
 import axios from "axios";
-import { UserAnswer } from "./UserAnswerType";
-import { useNavigate } from "react-router-dom";
+import {UserAnswer} from "./UserAnswerType";
+import {useNavigate} from "react-router-dom";
+import {CircularProgressbar} from "react-circular-progressbar";
 
 type AnswerDTO = {
     answerObjectList: UserAnswer[]
@@ -16,23 +17,17 @@ const Questions = () => {
     const [submitResponse, setSubmitResponse] = useState<any>(null);
     const [showScore, setShowScore] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isAnswerSelected, setIsAnswerSelected] = useState<boolean>(false);
-
+    const [timer, setTimer] = useState<number>(15);
     const navigate = useNavigate();
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
-        setIsAnswerSelected(false);
+        setTimer(15)
     }
 
     const handleClickEvaluation = () => {
-        const answerDTO: AnswerDTO = { answerObjectList: userAnswers };
+        const answerDTO: AnswerDTO = {answerObjectList: userAnswers};
         setIsLoading(true);
-
-        setUsersAnswer([])
-        setSubmitResponse(null)
-        setShowScore(false)
-
         axios.post('/api/questions', answerDTO)
             .then(response => {
                 setSubmitResponse(response.data);
@@ -62,13 +57,9 @@ const Questions = () => {
             updatedUserAnswers.push(submittedAnswer);
             setUsersAnswer(updatedUserAnswers);
         }
-        setIsAnswerSelected(true);
     }
 
     useEffect(() => {
-        setUsersAnswer([])
-        setSubmitResponse(null)
-        setShowScore(false)
         axios.get('/api/questions')
             .then(response => response.data)
             .then(data => {
@@ -81,12 +72,50 @@ const Questions = () => {
     const currentQuestion = questionsUnsortedList[currentIndex];
     const isLastQuestion = currentIndex === questionsUnsortedList.length - 1;
 
+    useEffect(() => {
+        if (timer === 0 && !isLastQuestion && !showScore) {
+            const noneAnswer: UserAnswer = {
+                description: currentQuestion.description,
+                answer: "none"
+            };
+            setSingleAnswer(noneAnswer);
+            handleNext();
+        } else if (timer === 0 && isLastQuestion && !showScore) {
+            const noneAnswer: UserAnswer = {
+                description: currentQuestion.description,
+                answer: "none"
+            };
+            setSingleAnswer(noneAnswer);
+            handleClickEvaluation();
+        }
+        const countdown = setInterval(() => {
+            setTimer((prevTimer) => prevTimer - 1)
+        }, 1000);
+        return () => clearInterval(countdown);
+    }, [timer, isLastQuestion, showScore]);
+
+
     return (
         <div>
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
                 <>
+                    <div style={{ marginBottom: '20px' }}>
+                        {!showScore && (
+                            <CircularProgressbar
+                                value={timer}
+                                maxValue={15}
+                                text={timer.toString()}
+                                styles={{
+                                    root: { width: '100px', position: 'relative' },
+                                    path: { stroke: `rgba(62, 152, 199, ${1 - timer / 15})` },
+                                    trail: { stroke: '#e3942b' },
+                                    text: { fill: '#ee0808', fontSize: '25px', fontWeight: 'bold', alignContent: 'center'}
+                                }}
+                            />
+                        )}
+                    </div>
                     {currentQuestion && (
                         <QuestionCard
                             key={"questionCard_" + currentQuestion.description}
@@ -103,12 +132,12 @@ const Questions = () => {
                                     <button onClick={handleRestart}>Restart</button>
                                 </>
                             ) : (
-                                <button disabled={!isAnswerSelected} onClick={handleClickEvaluation}>Evaluation</button>
-                                )}
+                                <button onClick={handleClickEvaluation}>Evaluation</button>
+                            )}
                         </>
                     ) : (
-                        <button disabled={!isAnswerSelected} onClick={handleNext}>Next</button>
-                        )}
+                        <button onClick={handleNext}>Next</button>
+                    )}
                 </>
             )}
         </div>
